@@ -1,0 +1,67 @@
+# =====================================================================
+# 快速演示配置（H2 内存数据库 + 无 RocketMQ）
+#
+# 用途：你本机 MySQL 密码未知 / 不想装 MySQL 时，用这份配置直接跑起来
+# 启动：java -jar seckill-system.jar --spring.profiles.active=demo
+#      或在 IDEA 的 Program arguments 里填 --spring.profiles.active=demo
+#
+# ⚠️ 注意事项：
+#   1. H2 是内存数据库，重启即清空（适合演示，不适合压测）
+#   2. Redis 仍然需要（缓存与 Lua 脚本是核心，无法用内存替代）
+#   3. 压测请务必切回 MySQL，否则数据不可信
+# =====================================================================
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    # MODE=MySQL 让 H2 兼容 MySQL 语法，schema.sql 可直接复用
+    url: jdbc:h2:mem:seckill;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: ""
+
+  # 自动执行建表脚本
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/h2-schema.sql
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.xgh.seckill.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+# 关闭 RocketMQ，使用内存队列
+seckill:
+  mq:
+    rocketmq-enabled: false
+  order-timeout-minutes: 15
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+
+spring.cloud.sentinel:
+  transport:
+    dashboard: 127.0.0.1:8858
+    port: 8719
+  eager: false
+
+logging:
+  level:
+    root: info
+    com.xgh.seckill: debug

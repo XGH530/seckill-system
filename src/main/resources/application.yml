@@ -1,0 +1,159 @@
+server:
+  port: 8080
+  tomcat:
+    # 【性能优化点】Tomcat 线程池调优，配合秒杀高并发场景
+    threads:
+      max: 800
+      min-spare: 100
+    max-connections: 10000
+    accept-count: 1000
+
+spring:
+  application:
+    name: seckill-system
+
+  # ---------------------------------------------------------------
+  # 数据源
+  # ---------------------------------------------------------------
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    username: root
+    password: root
+    hikari:
+      # 【性能优化点】连接池调优：最大连接数 = CPU核数 * 2 + 磁盘数
+      # 本机 16 逻辑核 → 取 40 左右较为合理，过大反而因上下文切换降低吞吐
+      maximum-pool-size: 40
+      minimum-idle: 10
+      connection-timeout: 3000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      pool-name: SeckillHikariPool
+
+  # ---------------------------------------------------------------
+  # Redis
+  # ---------------------------------------------------------------
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 200
+          max-idle: 50
+          min-idle: 20
+          max-wait: 2000ms
+
+  # ---------------------------------------------------------------
+  # Jackson
+  # ---------------------------------------------------------------
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+# ---------------------------------------------------------------
+# MyBatis-Plus
+# ---------------------------------------------------------------
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.xgh.seckill.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    # 【性能优化点】关闭二级缓存（秒杀场景数据变化快，缓存容易脏）
+    cache-enabled: false
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# ---------------------------------------------------------------
+# RocketMQ
+# 【降级方案】如果没部署 RocketMQ，把 enabled 改为 false，
+#            系统会自动切换到内置的内存队列（见 MqConfig 注释）
+# ---------------------------------------------------------------
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: seckill-producer-group
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 2
+
+# 秒杀系统开关配置
+seckill:
+  mq:
+    # true  = 使用 RocketMQ（需要部署 RocketMQ）
+    # false = 使用内置内存队列（无需任何中间件，方便本地演示）
+    rocketmq-enabled: false
+  # 订单支付超时时间（分钟），超时后通过延迟消息回滚库存
+  order-timeout-minutes: 15
+  # 分布式锁等待时间（毫秒）
+  lock-wait-time: 3000
+  # 分布式锁持有时间（毫秒）
+  lock-lease-time: 10000
+
+# ---------------------------------------------------------------
+# Sentinel 限流
+# ---------------------------------------------------------------
+spring.cloud.sentinel:
+  transport:
+    # 不部署 Dashboard 时设为 false，规则从代码加载
+    dashboard: 127.0.0.1:8858
+    port: 8719
+  eager: true
+
+# ---------------------------------------------------------------
+# 日志
+# ---------------------------------------------------------------
+logging:
+  level:
+    root: info
+    com.xgh.seckill: debug
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# ---------------------------------------------------------------
+# 可观测性（Actuator）
+# 【面试点】为什么生产系统必须暴露健康检查？
+#   1. K8s / Nginx / SLB 靠 /actuator/health 判断实例存活，自动摘除故障节点
+#   2. 靠 /actuator/metrics 接 Prometheus 做 QPS、延迟、连接池、JVM 监控告警
+#   3. 靠 /actuator/info 确认线上跑的是哪个版本
+# ---------------------------------------------------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,threaddump,heapdump
+  endpoint:
+    health:
+      show-details: always
+      # 【重要】readiness 探针用于「流量接入前的就绪检查」，
+      # liveness 用于「进程是否需要重启」，两者语义不同，生产必须分开配。
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: seckill-system
+    description: 分布式高并发秒杀系统
+    author: 向国豪
+    version: 1.0.0
+
+# ---------------------------------------------------------------
+# Knife4j 接口文档
+# 【注意】不要配置 springdoc.swagger-ui.path，否则 /doc.html 会被
+# 重定向到原始 swagger-ui（丑的那版）。Knife4j 自己会接管 /doc.html。
+# ---------------------------------------------------------------
+springdoc:
+  default-flat-param-object: true
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn

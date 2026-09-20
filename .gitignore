@@ -1,0 +1,40 @@
+# ===== 构建产物 =====
+target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== 日志 =====
+*.log
+logs/
+# 例外：保留压测过程记录（作为实测证据）
+!pressure-test/*.log
+
+# ===== IDE =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# ===== 操作系统 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 压测运行产物 =====
+# 保留 .java 源码与结果证据文件，忽略编译输出、调试日志与临时探测文件
+pressure-test/out/
+pressure-test/*.class
+pressure-test/app-run*.log
+pressure-test/probe*.txt
+/tmp/
+
+# ===== 本地环境配置（含密钥/本机路径，不入库）=====
+application-local.yml
+application-dev.yml
+*.local.yml
+.env

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ========================================================================
+  秒杀系统 JMeter 压测计划
+  ========================================================================
+  场景：200 并发用户同时抢购活动 1（初始库存 100）
+
+  【怎么用】
+    jmeter -n -t jmeter/seckill-pressure-test.jmx \
+           -l jmeter/result.jtl \
+           -e -o jmeter/report \
+           -Jhost=localhost -Jport=8080 -Jthreads=200
+
+  【前置条件】
+    1. 应用已启动（且使用独立库存，建议先重置活动库存）
+    2. 每个线程使用**不同用户**——否则会被「一人一单」拦截，
+       压不出真实的库存竞争（这一点很多人会踩坑）
+
+  【参数说明】
+    -Jthreads=200   并发线程数（默认 200）
+    -Jrampup=1      多少秒内启动完所有线程（默认 1，制造瞬时尖峰）
+    -Jloops=1       每线程循环次数（默认 1）
+    -Jhost / -Jport 目标地址
+    -JactivityId    活动 ID（默认 1）
+
+  【为什么用 setUp 线程组预先造用户 + 取 Token】
+    JMeter 的线程变量不跨线程共享，因此：
+    - setUp 线程组：批量注册用户（幂等接口），把用户名写入文件供主线程组读取
+    - 每个线程：先取幂等 Token，再发起秒杀
+    这是"每个请求必须携带独立 Token"这类接口的标准压测写法。
+  ========================================================================
+-->
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="秒杀系统压测" enabled="true">
+      <stringProp name="TestPlan.comments">200并发抢100库存，验证不超卖</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value">${__P(host,localhost)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">${__P(port,8080)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="threads" elementType="Argument">
+            <stringProp name="Argument.name">threads</stringProp>
+            <stringProp name="Argument.value">${__P(threads,200)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="rampup" elementType="Argument">
+            <stringProp name="Argument.name">rampup</stringProp>
+            <stringProp name="Argument.value">${__P(rampup,1)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="loops" elementType="Argument">
+            <stringProp name="Argument.name">loops</stringProp>
+            <stringProp name="Argument.value">${__P(loops,1)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="activityId" elementType="Argument">
+            <stringProp name="Argument.name">activityId</stringProp>
+            <stringProp name="Argument.value">${__P(activityId,1)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="baseUrl" elementType="Argument">
+            <stringProp name="Argument.name">baseUrl</stringProp>
+            <stringProp name="Argument.value">http://${host}:${port}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userFile" elementType="Argument">
+            <stringProp name="Argument.name">userFile</stringProp>
+            <stringProp name="Argument.value">${__P(userFile,jmeter/users.csv)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+
+      <!-- ============================================================
+           setUp 线程组：批量注册压测用户（幂等接口）
+           目的：制造"不同用户同时抢购"的真实库存竞争场景
+           ============================================================ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="setUp 造压测用户" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${threads}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="注册用户 loadtest_{i}" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="参数" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;username&quot;:&quot;loadtest_${__threadNum}${__counter(FALSE)}&quot;,&quot;password&quot;:&quot;123456&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/auth/register</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <elementProp name="HTTPsampler.header_manager" elementType="HeaderManager" guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <!-- 把 token 写入文件，供主线程组按行读取（每行一个用户） -->
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="提取token写入文件" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">import java.io.*;
+
+String resp = prev.getResponseDataAsString();
+String token = "";
+java.util.regex.Matcher m =
+    java.util.regex.Pattern.compile("\"token\":\"([^\"]+)\"").matcher(resp);
+if (m.find()) { token = m.group(1); }
+
+// 追加写入（setUp 线程组单线程顺序执行，无需加锁）
+String path = "${userFile}";
+File f = new File(path);
+f.getParentFile().mkdirs();
+FileWriter fw = new FileWriter(f, true);
+fw.write(token + "|loadtest_" + "${__threadNum}" + "${__counter(FALSE)}" + "\n");
+fw.close();
+</stringProp>
+          </BeanShellPostProcessor>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="查看结果树" enabled="false">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+        </hashTree>
+      </hashTree>
+
+      <!-- ============================================================
+           主线程组：并发秒杀
+           ============================================================ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="并发秒杀 ${threads}线程" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${loops}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${rampup}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <!-- 读取 setUp 阶段写入的用户 token（按行循环分配） -->
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="读取压测用户" enabled="true">
+          <stringProp name="filename">${userFile}</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="delimiter">|</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <stringProp name="variableNames">userToken,userName</stringProp>
+        </CSVDataSet>
+
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">Bearer ${userToken}</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+
+        <!-- 步骤 1：获取幂等 Token -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="01 获取幂等Token" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="参数" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/seckill/token?activityId=${activityId}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="提取token" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">idemToken</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+          </JSONPostProcessor>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="断言获取成功" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">&quot;code&quot;:200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">获取幂等Token失败</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+        </hashTree>
+
+        <!-- 步骤 2：执行秒杀 -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="02 执行秒杀" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="参数" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;activityId&quot;:${activityId},&quot;idempotentToken&quot;:&quot;${idemToken}&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/seckill/do</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <!-- 关键断言：不允许出现 500（系统异常），业务失败（602售罄/603重复）是正常的 -->
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="断言无系统异常" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51511">&quot;code&quot;:500</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">出现系统异常 500 —— 压测失败</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="查看结果树" enabled="false">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+        </hashTree>
+      </hashTree>
+
+      <!-- 汇总报告 -->
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="汇总报告" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
