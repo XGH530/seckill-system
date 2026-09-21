@@ -1,0 +1,535 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1789895392202,43,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,1,http://localhost:8080/auth/register,38,0,26
+1789895392269,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392289,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,7,http://localhost:8080/auth/register,3,0,0
+1789895392313,5,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,13,http://localhost:8080/auth/register,5,0,0
+1789895392300,16,01 获取幂等Token,200,,并发秒杀 2-40,text,true,,293,408,12,13,http://localhost:8080/seckill/token?activityId=1,15,0,12
+1789895392289,25,01 获取幂等Token,200,,并发秒杀 2-38,text,true,,293,408,11,12,http://localhost:8080/seckill/token?activityId=1,24,0,22
+1789895392315,6,01 获取幂等Token,200,,并发秒杀 2-45,text,true,,293,408,12,13,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392288,23,01 获取幂等Token,200,,并发秒杀 2-39,text,true,,293,408,9,10,http://localhost:8080/seckill/token?activityId=1,23,0,22
+1789895392324,5,01 获取幂等Token,200,,并发秒杀 2-43,text,true,,293,408,14,15,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392284,6,01 获取幂等Token,200,,并发秒杀 2-35,text,true,,293,408,6,7,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392287,24,01 获取幂等Token,200,,并发秒杀 2-37,text,true,,293,408,9,10,http://localhost:8080/seckill/token?activityId=1,24,0,23
+1789895392287,3,01 获取幂等Token,200,,并发秒杀 2-34,text,true,,293,408,6,7,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392309,8,01 获取幂等Token,200,,并发秒杀 2-41,text,true,,293,408,12,13,http://localhost:8080/seckill/token?activityId=1,8,0,4
+1789895392287,24,01 获取幂等Token,200,,并发秒杀 2-36,text,true,,293,408,9,10,http://localhost:8080/seckill/token?activityId=1,24,0,22
+1789895392309,6,01 获取幂等Token,200,,并发秒杀 2-42,text,true,,293,408,12,13,http://localhost:8080/seckill/token?activityId=1,6,0,3
+1789895392324,7,01 获取幂等Token,200,,并发秒杀 2-44,text,true,,293,408,16,17,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392323,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,13,http://localhost:8080/auth/register,3,0,0
+1789895392331,4,02 执行秒杀,200,,并发秒杀 2-37,text,true,,291,482,16,17,http://localhost:8080/seckill/do,4,0,0
+1789895392329,6,02 执行秒杀,200,,并发秒杀 2-43,text,true,,291,482,16,17,http://localhost:8080/seckill/do,6,0,0
+1789895392331,4,02 执行秒杀,200,,并发秒杀 2-41,text,true,,291,482,16,17,http://localhost:8080/seckill/do,4,0,0
+1789895392330,7,02 执行秒杀,200,,并发秒杀 2-39,text,true,,291,482,16,17,http://localhost:8080/seckill/do,7,0,0
+1789895392332,6,02 执行秒杀,200,,并发秒杀 2-44,text,true,,291,482,12,13,http://localhost:8080/seckill/do,6,0,0
+1789895392331,7,02 执行秒杀,200,,并发秒杀 2-36,text,true,,291,482,12,13,http://localhost:8080/seckill/do,7,0,0
+1789895392332,7,02 执行秒杀,200,,并发秒杀 2-42,text,true,,291,482,10,11,http://localhost:8080/seckill/do,7,0,0
+1789895392332,7,02 执行秒杀,200,,并发秒杀 2-34,text,true,,291,482,10,11,http://localhost:8080/seckill/do,7,0,0
+1789895392331,9,02 执行秒杀,200,,并发秒杀 2-35,text,true,,291,482,8,9,http://localhost:8080/seckill/do,9,0,0
+1789895392334,7,01 获取幂等Token,200,,并发秒杀 2-46,text,true,,293,408,7,8,http://localhost:8080/seckill/token?activityId=1,7,0,5
+1789895392336,6,01 获取幂等Token,200,,并发秒杀 2-48,text,true,,293,408,7,8,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392329,15,02 执行秒杀,200,,并发秒杀 2-38,text,true,,369,482,7,8,http://localhost:8080/seckill/do,14,0,0
+1789895392330,15,02 执行秒杀,200,,并发秒杀 2-45,text,true,,369,482,6,7,http://localhost:8080/seckill/do,15,0,0
+1789895392342,3,02 执行秒杀,200,,并发秒杀 2-46,text,true,,291,482,6,7,http://localhost:8080/seckill/do,3,0,0
+1789895392329,16,02 执行秒杀,200,,并发秒杀 2-40,text,true,,369,482,6,7,http://localhost:8080/seckill/do,16,0,0
+1789895392335,7,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,8,http://localhost:8080/auth/register,7,0,0
+1789895392343,7,02 执行秒杀,200,,并发秒杀 2-48,text,true,,369,482,6,7,http://localhost:8080/seckill/do,7,0,0
+1789895392351,4,01 获取幂等Token,200,,并发秒杀 2-49,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392351,4,01 获取幂等Token,200,,并发秒杀 2-47,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392351,4,01 获取幂等Token,200,,并发秒杀 2-50,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392347,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,7,http://localhost:8080/auth/register,3,0,0
+1789895392351,5,01 获取幂等Token,200,,并发秒杀 2-52,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392351,5,01 获取幂等Token,200,,并发秒杀 2-51,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392356,7,02 执行秒杀,200,,并发秒杀 2-49,text,true,,288,482,8,9,http://localhost:8080/seckill/do,7,0,0
+1789895392356,7,02 执行秒杀,200,,并发秒杀 2-47,text,true,,288,482,8,9,http://localhost:8080/seckill/do,7,0,0
+1789895392356,7,02 执行秒杀,200,,并发秒杀 2-50,text,true,,288,482,8,9,http://localhost:8080/seckill/do,7,0,0
+1789895392357,8,02 执行秒杀,200,,并发秒杀 2-52,text,true,,288,482,5,6,http://localhost:8080/seckill/do,8,0,0
+1789895392357,9,02 执行秒杀,200,,并发秒杀 2-51,text,true,,369,482,4,5,http://localhost:8080/seckill/do,9,0,0
+1789895392361,5,01 获取幂等Token,200,,并发秒杀 2-54,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392361,5,01 获取幂等Token,200,,并发秒杀 2-53,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392356,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,8,http://localhost:8080/auth/register,4,0,0
+1789895392367,6,02 执行秒杀,200,,并发秒杀 2-54,text,true,,369,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392367,6,02 执行秒杀,200,,并发秒杀 2-53,text,true,,369,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392367,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,524,236,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392375,4,01 获取幂等Token,200,,并发秒杀 2-55,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392377,3,01 获取幂等Token,200,,并发秒杀 2-57,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392377,4,01 获取幂等Token,200,,并发秒杀 2-56,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392377,4,01 获取幂等Token,200,,并发秒杀 2-58,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392376,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,4,0,0
+1789895392380,6,02 执行秒杀,200,,并发秒杀 2-55,text,true,,288,482,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392381,5,02 执行秒杀,200,,并发秒杀 2-57,text,true,,288,482,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392381,5,02 执行秒杀,200,,并发秒杀 2-58,text,true,,288,482,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392381,6,02 执行秒杀,200,,并发秒杀 2-56,text,true,,288,482,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392386,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,3,0,0
+1789895392392,5,01 获取幂等Token,200,,并发秒杀 2-59,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392392,5,01 获取幂等Token,200,,并发秒杀 2-60,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392392,5,01 获取幂等Token,200,,并发秒杀 2-61,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392398,5,02 执行秒杀,200,,并发秒杀 2-59,text,true,,288,482,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392398,5,02 执行秒杀,200,,并发秒杀 2-60,text,true,,288,482,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392398,6,02 执行秒杀,200,,并发秒杀 2-61,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392395,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392407,3,01 获取幂等Token,200,,并发秒杀 2-62,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392407,3,01 获取幂等Token,200,,并发秒杀 2-63,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392404,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392407,5,01 获取幂等Token,200,,并发秒杀 2-64,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392411,10,02 执行秒杀,200,,并发秒杀 2-63,text,true,,369,482,3,4,http://localhost:8080/seckill/do,9,0,0
+1789895392412,9,02 执行秒杀,200,,并发秒杀 2-64,text,true,,369,482,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895392411,10,02 执行秒杀,200,,并发秒杀 2-62,text,true,,369,483,3,4,http://localhost:8080/seckill/do,9,0,0
+1789895392411,7,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,7,0,0
+1789895392422,4,01 获取幂等Token,200,,并发秒杀 2-66,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392422,4,01 获取幂等Token,200,,并发秒杀 2-65,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392422,4,01 获取幂等Token,200,,并发秒杀 2-67,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392423,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392426,7,02 执行秒杀,200,,并发秒杀 2-66,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392426,7,02 执行秒杀,200,,并发秒杀 2-65,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392427,6,02 执行秒杀,200,,并发秒杀 2-67,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392431,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,3,0,0
+1789895392438,3,01 获取幂等Token,200,,并发秒杀 2-68,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392438,3,01 获取幂等Token,200,,并发秒杀 2-69,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392439,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392442,6,02 执行秒杀,200,,并发秒杀 2-69,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392442,6,02 执行秒杀,200,,并发秒杀 2-68,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392446,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,2,http://localhost:8080/auth/register,3,0,0
+1789895392450,5,01 获取幂等Token,200,,并发秒杀 2-70,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,5,0,1
+1789895392453,4,01 获取幂等Token,200,,并发秒杀 2-72,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392453,4,01 获取幂等Token,200,,并发秒杀 2-71,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392453,6,01 获取幂等Token,200,,并发秒杀 2-73,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392456,6,02 执行秒杀,200,,并发秒杀 2-70,text,true,,288,482,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392454,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,3,0,0
+1789895392458,6,02 执行秒杀,200,,并发秒杀 2-71,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392458,6,02 执行秒杀,200,,并发秒杀 2-72,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392460,5,02 执行秒杀,200,,并发秒杀 2-73,text,true,,288,482,1,2,http://localhost:8080/seckill/do,5,0,0
+1789895392463,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,2,http://localhost:8080/auth/register,3,0,0
+1789895392468,4,01 获取幂等Token,200,,并发秒杀 2-76,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392468,4,01 获取幂等Token,200,,并发秒杀 2-74,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392468,4,01 获取幂等Token,200,,并发秒杀 2-75,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392470,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392472,6,02 执行秒杀,200,,并发秒杀 2-75,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392472,6,02 执行秒杀,200,,并发秒杀 2-74,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392472,6,02 执行秒杀,200,,并发秒杀 2-76,text,true,,288,482,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392477,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,4,0,0
+1789895392483,4,01 获取幂等Token,200,,并发秒杀 2-79,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392483,4,01 获取幂等Token,200,,并发秒杀 2-78,text,true,,293,408,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392483,4,01 获取幂等Token,200,,并发秒杀 2-77,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392488,5,02 执行秒杀,200,,并发秒杀 2-79,text,true,,288,482,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392488,5,02 执行秒杀,200,,并发秒杀 2-78,text,true,,288,482,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392488,7,02 执行秒杀,200,,并发秒杀 2-77,text,true,,288,483,1,2,http://localhost:8080/seckill/do,7,0,0
+1789895392488,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392499,5,01 获取幂等Token,200,,并发秒杀 2-80,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392499,6,01 获取幂等Token,200,,并发秒杀 2-81,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392499,6,01 获取幂等Token,200,,并发秒杀 2-82,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,3
+1789895392496,5,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392505,7,02 执行秒杀,200,,并发秒杀 2-80,text,true,,288,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392505,7,02 执行秒杀,200,,并发秒杀 2-82,text,true,,288,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392505,7,02 执行秒杀,200,,并发秒杀 2-81,text,true,,288,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392505,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392514,4,01 获取幂等Token,200,,并发秒杀 2-84,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392514,5,01 获取幂等Token,200,,并发秒杀 2-83,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392514,8,01 获取幂等Token,200,,并发秒杀 2-85,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,7,0,3
+1789895392514,10,01 获取幂等Token,200,,并发秒杀 2-86,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,10,0,7
+1789895392514,5,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,4,0,0
+1789895392519,14,02 执行秒杀,200,,并发秒杀 2-83,text,true,,369,483,7,8,http://localhost:8080/seckill/do,14,0,0
+1789895392519,15,02 执行秒杀,200,,并发秒杀 2-84,text,true,,369,483,6,7,http://localhost:8080/seckill/do,14,0,0
+1789895392523,14,02 执行秒杀,200,,并发秒杀 2-85,text,true,,288,483,5,6,http://localhost:8080/seckill/do,14,0,0
+1789895392525,14,02 执行秒杀,200,,并发秒杀 2-86,text,true,,288,483,4,5,http://localhost:8080/seckill/do,13,0,0
+1789895392533,10,01 获取幂等Token,200,,并发秒杀 2-87,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,9,0,3
+1789895392530,9,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,8,0,0
+1789895392537,8,01 获取幂等Token,200,,并发秒杀 2-88,text,true,,293,409,5,6,http://localhost:8080/seckill/token?activityId=1,8,0,4
+1789895392537,9,01 获取幂等Token,200,,并发秒杀 2-89,text,true,,293,409,5,6,http://localhost:8080/seckill/token?activityId=1,8,0,5
+1789895392546,5,01 获取幂等Token,200,,并发秒杀 2-91,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392546,7,01 获取幂等Token,200,,并发秒杀 2-92,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,7,0,5
+1789895392548,11,01 获取幂等Token,200,,并发秒杀 2-90,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,11,0,5
+1789895392545,8,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,7,http://localhost:8080/auth/register,8,0,0
+1789895392544,21,02 执行秒杀,200,,并发秒杀 2-87,text,true,,369,483,8,9,http://localhost:8080/seckill/do,21,0,0
+1789895392547,19,02 执行秒杀,200,,并发秒杀 2-89,text,true,,369,483,8,9,http://localhost:8080/seckill/do,19,0,0
+1789895392546,20,02 执行秒杀,200,,并发秒杀 2-88,text,true,,369,483,8,9,http://localhost:8080/seckill/do,20,0,0
+1789895392552,21,02 执行秒杀,200,,并发秒杀 2-91,text,true,,369,483,6,7,http://localhost:8080/seckill/do,21,0,0
+1789895392561,10,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,7,http://localhost:8080/auth/register,9,0,0
+1789895392562,16,01 获取幂等Token,200,,并发秒杀 2-95,text,true,,293,409,8,9,http://localhost:8080/seckill/token?activityId=1,16,0,8
+1789895392554,27,02 执行秒杀,200,,并发秒杀 2-92,text,true,,369,483,8,9,http://localhost:8080/seckill/do,26,0,0
+1789895392563,18,01 获取幂等Token,200,,并发秒杀 2-94,text,true,,293,409,8,9,http://localhost:8080/seckill/token?activityId=1,17,0,9
+1789895392560,22,02 执行秒杀,200,,并发秒杀 2-90,text,true,,369,483,7,8,http://localhost:8080/seckill/do,22,0,0
+1789895392568,14,01 获取幂等Token,200,,并发秒杀 2-93,text,true,,293,409,7,8,http://localhost:8080/seckill/token?activityId=1,14,0,5
+1789895392576,8,01 获取幂等Token,200,,并发秒杀 2-98,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,8,0,5
+1789895392576,11,01 获取幂等Token,200,,并发秒杀 2-97,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,11,0,8
+1789895392577,7,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,7,http://localhost:8080/auth/register,7,0,0
+1789895392579,13,02 执行秒杀,200,,并发秒杀 2-95,text,true,,369,483,7,8,http://localhost:8080/seckill/do,10,0,0
+1789895392585,9,01 获取幂等Token,200,,并发秒杀 2-96,text,true,,293,409,8,9,http://localhost:8080/seckill/token?activityId=1,9,0,3
+1789895392583,14,02 执行秒杀,200,,并发秒杀 2-93,text,true,,369,483,8,9,http://localhost:8080/seckill/do,14,0,0
+1789895392585,13,02 执行秒杀,200,,并发秒杀 2-98,text,true,,369,483,8,9,http://localhost:8080/seckill/do,13,0,0
+1789895392582,18,02 执行秒杀,200,,并发秒杀 2-94,text,true,,369,483,6,7,http://localhost:8080/seckill/do,18,0,0
+1789895392593,7,01 获取幂等Token,200,,并发秒杀 2-100,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,7,0,5
+1789895392588,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,8,http://localhost:8080/auth/register,3,0,0
+1789895392588,15,02 执行秒杀,200,,并发秒杀 2-97,text,true,,369,483,5,6,http://localhost:8080/seckill/do,15,0,0
+1789895392595,14,02 执行秒杀,200,,并发秒杀 2-96,text,true,,369,483,7,8,http://localhost:8080/seckill/do,14,0,0
+1789895392602,5,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,5,0,0
+1789895392601,11,02 执行秒杀,200,,并发秒杀 2-100,text,true,,369,483,6,7,http://localhost:8080/seckill/do,10,0,0
+1789895392615,5,01 获取幂等Token,200,,并发秒杀 2-99,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392615,6,01 获取幂等Token,200,,并发秒杀 2-102,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392615,5,01 获取幂等Token,200,,并发秒杀 2-104,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392615,6,01 获取幂等Token,200,,并发秒杀 2-103,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392611,5,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,6,http://localhost:8080/auth/register,5,0,0
+1789895392615,7,01 获取幂等Token,200,,并发秒杀 2-101,text,true,,293,408,5,6,http://localhost:8080/seckill/token?activityId=1,7,0,5
+1789895392621,9,02 执行秒杀,200,,并发秒杀 2-103,text,true,,288,482,8,9,http://localhost:8080/seckill/do,9,0,0
+1789895392626,5,01 获取幂等Token,200,,并发秒杀 2-107,text,true,,293,408,8,9,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392621,9,02 执行秒杀,200,,并发秒杀 2-99,text,true,,288,482,8,9,http://localhost:8080/seckill/do,9,0,0
+1789895392621,10,02 执行秒杀,200,,并发秒杀 2-102,text,true,,288,482,7,8,http://localhost:8080/seckill/do,10,0,0
+1789895392626,6,01 获取幂等Token,200,,并发秒杀 2-105,text,true,,293,408,6,7,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392621,12,02 执行秒杀,200,,并发秒杀 2-104,text,true,,288,482,5,6,http://localhost:8080/seckill/do,12,0,0
+1789895392623,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,9,http://localhost:8080/auth/register,4,0,0
+1789895392623,12,02 执行秒杀,200,,并发秒杀 2-101,text,true,,288,482,4,5,http://localhost:8080/seckill/do,12,0,0
+1789895392627,8,01 获取幂等Token,200,,并发秒杀 2-106,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,8,0,3
+1789895392631,11,02 执行秒杀,200,,并发秒杀 2-107,text,true,,288,482,7,8,http://localhost:8080/seckill/do,10,0,0
+1789895392632,10,02 执行秒杀,200,,并发秒杀 2-105,text,true,,288,482,6,7,http://localhost:8080/seckill/do,10,0,0
+1789895392634,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392636,9,02 执行秒杀,200,,并发秒杀 2-106,text,true,,288,482,5,6,http://localhost:8080/seckill/do,9,0,0
+1789895392640,7,01 获取幂等Token,200,,并发秒杀 2-108,text,true,,293,408,4,5,http://localhost:8080/seckill/token?activityId=1,7,0,4
+1789895392640,9,01 获取幂等Token,200,,并发秒杀 2-109,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,9,0,5
+1789895392642,7,01 获取幂等Token,200,,并发秒杀 2-110,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,7,0,5
+1789895392642,9,01 获取幂等Token,200,,并发秒杀 2-111,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,9,0,6
+1789895392643,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,4,0,0
+1789895392648,9,02 执行秒杀,200,,并发秒杀 2-108,text,true,,288,482,7,8,http://localhost:8080/seckill/do,9,0,0
+1789895392650,10,02 执行秒杀,200,,并发秒杀 2-110,text,true,,288,483,6,7,http://localhost:8080/seckill/do,10,0,0
+1789895392650,10,02 执行秒杀,200,,并发秒杀 2-109,text,true,,288,483,6,7,http://localhost:8080/seckill/do,10,0,0
+1789895392655,5,01 获取幂等Token,200,,并发秒杀 2-113,text,true,,293,409,6,7,http://localhost:8080/seckill/token?activityId=1,5,0,2
+1789895392653,7,02 执行秒杀,200,,并发秒杀 2-111,text,true,,288,483,6,7,http://localhost:8080/seckill/do,7,0,0
+1789895392653,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,8,http://localhost:8080/auth/register,4,0,0
+1789895392655,6,01 获取幂等Token,200,,并发秒杀 2-114,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895392657,6,01 获取幂等Token,200,,并发秒杀 2-112,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,3
+1789895392660,6,02 执行秒杀,200,,并发秒杀 2-113,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392661,5,02 执行秒杀,200,,并发秒杀 2-114,text,true,,288,483,3,4,http://localhost:8080/seckill/do,4,0,0
+1789895392661,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392664,5,02 执行秒杀,200,,并发秒杀 2-112,text,true,,288,483,1,2,http://localhost:8080/seckill/do,5,0,0
+1789895392670,4,01 获取幂等Token,200,,并发秒杀 2-115,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392670,4,01 获取幂等Token,200,,并发秒杀 2-116,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392670,5,01 获取幂等Token,200,,并发秒杀 2-117,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392668,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392676,4,02 执行秒杀,200,,并发秒杀 2-117,text,true,,288,483,3,4,http://localhost:8080/seckill/do,4,0,0
+1789895392675,5,02 执行秒杀,200,,并发秒杀 2-116,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392675,5,02 执行秒杀,200,,并发秒杀 2-115,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392676,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392686,3,01 获取幂等Token,200,,并发秒杀 2-120,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392686,3,01 获取幂等Token,200,,并发秒杀 2-119,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392686,4,01 获取幂等Token,200,,并发秒杀 2-118,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392683,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392691,5,02 执行秒杀,200,,并发秒杀 2-118,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392690,6,02 执行秒杀,200,,并发秒杀 2-120,text,true,,288,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392690,6,02 执行秒杀,200,,并发秒杀 2-119,text,true,,288,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392691,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392698,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,3,http://localhost:8080/auth/register,2,0,0
+1789895392701,4,01 获取幂等Token,200,,并发秒杀 2-122,text,true,,293,409,2,3,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392701,4,01 获取幂等Token,200,,并发秒杀 2-121,text,true,,293,409,2,3,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392704,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,3,http://localhost:8080/auth/register,3,0,0
+1789895392705,5,02 执行秒杀,200,,并发秒杀 2-121,text,true,,288,483,2,3,http://localhost:8080/seckill/do,5,0,0
+1789895392705,5,02 执行秒杀,200,,并发秒杀 2-122,text,true,,288,483,2,3,http://localhost:8080/seckill/do,5,0,0
+1789895392710,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,3,0,0
+1789895392717,2,01 获取幂等Token,200,,并发秒杀 2-125,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,2,0,1
+1789895392717,2,01 获取幂等Token,200,,并发秒杀 2-126,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,2,0,2
+1789895392717,2,01 获取幂等Token,200,,并发秒杀 2-123,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,2,0,1
+1789895392717,3,01 获取幂等Token,200,,并发秒杀 2-124,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392717,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,2,0,0
+1789895392720,5,02 执行秒杀,200,,并发秒杀 2-126,text,true,,288,483,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392720,5,02 执行秒杀,200,,并发秒杀 2-125,text,true,,288,483,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392720,5,02 执行秒杀,200,,并发秒杀 2-123,text,true,,288,483,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392721,4,02 执行秒杀,200,,并发秒杀 2-124,text,true,,288,483,4,5,http://localhost:8080/seckill/do,4,0,0
+1789895392723,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,4,0,0
+1789895392732,4,01 获取幂等Token,200,,并发秒杀 2-127,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392732,4,01 获取幂等Token,200,,并发秒杀 2-129,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392732,4,01 获取幂等Token,200,,并发秒杀 2-128,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392730,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392736,5,02 执行秒杀,200,,并发秒杀 2-129,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392736,5,02 执行秒杀,200,,并发秒杀 2-128,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392736,5,02 执行秒杀,200,,并发秒杀 2-127,text,true,,288,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392738,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392744,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392748,3,01 获取幂等Token,200,,并发秒杀 2-130,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392748,3,01 获取幂等Token,200,,并发秒杀 2-131,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392748,3,01 获取幂等Token,200,,并发秒杀 2-132,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392752,5,02 执行秒杀,200,,并发秒杀 2-130,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392752,5,02 执行秒杀,200,,并发秒杀 2-132,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392751,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392752,7,02 执行秒杀,200,,并发秒杀 2-131,text,true,,369,483,1,2,http://localhost:8080/seckill/do,7,0,0
+1789895392759,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392763,3,01 获取幂等Token,200,,并发秒杀 2-133,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392763,3,01 获取幂等Token,200,,并发秒杀 2-134,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392763,3,01 获取幂等Token,200,,并发秒杀 2-135,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392765,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392767,7,02 执行秒杀,200,,并发秒杀 2-133,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392767,7,02 执行秒杀,200,,并发秒杀 2-134,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392767,7,02 执行秒杀,200,,并发秒杀 2-135,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895392770,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392779,3,01 获取幂等Token,200,,并发秒杀 2-138,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392779,3,01 获取幂等Token,200,,并发秒杀 2-136,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392779,3,01 获取幂等Token,200,,并发秒杀 2-137,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392778,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392783,6,02 执行秒杀,200,,并发秒杀 2-137,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392783,6,02 执行秒杀,200,,并发秒杀 2-138,text,true,,369,483,2,3,http://localhost:8080/seckill/do,6,0,0
+1789895392783,6,02 执行秒杀,200,,并发秒杀 2-136,text,true,,369,483,2,3,http://localhost:8080/seckill/do,6,0,0
+1789895392785,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392795,4,01 获取幂等Token,200,,并发秒杀 2-140,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392795,4,01 获取幂等Token,200,,并发秒杀 2-142,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392795,5,01 获取幂等Token,200,,并发秒杀 2-141,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392795,5,01 获取幂等Token,200,,并发秒杀 2-139,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392793,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,4,0,0
+1789895392799,7,02 执行秒杀,200,,并发秒杀 2-140,text,true,,369,483,4,5,http://localhost:8080/seckill/do,7,0,0
+1789895392799,8,02 执行秒杀,200,,并发秒杀 2-142,text,true,,369,483,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895392801,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,3,0,0
+1789895392801,7,02 执行秒杀,200,,并发秒杀 2-139,text,true,,369,483,2,3,http://localhost:8080/seckill/do,7,0,0
+1789895392801,8,02 执行秒杀,200,,并发秒杀 2-141,text,true,,369,483,1,2,http://localhost:8080/seckill/do,8,0,0
+1789895392811,4,01 获取幂等Token,200,,并发秒杀 2-144,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392811,4,01 获取幂等Token,200,,并发秒杀 2-145,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,1
+1789895392811,4,01 获取幂等Token,200,,并发秒杀 2-143,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392808,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392816,5,02 执行秒杀,200,,并发秒杀 2-143,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392816,5,02 执行秒杀,200,,并发秒杀 2-145,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392816,5,02 执行秒杀,200,,并发秒杀 2-144,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392816,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392823,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392827,3,01 获取幂等Token,200,,并发秒杀 2-148,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392827,3,01 获取幂等Token,200,,并发秒杀 2-146,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392827,3,01 获取幂等Token,200,,并发秒杀 2-147,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392829,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392831,5,02 执行秒杀,200,,并发秒杀 2-146,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392831,5,02 执行秒杀,200,,并发秒杀 2-148,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392831,6,02 执行秒杀,200,,并发秒杀 2-147,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392834,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392843,3,01 获取幂等Token,200,,并发秒杀 2-151,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392843,3,01 获取幂等Token,200,,并发秒杀 2-150,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392843,3,01 获取幂等Token,200,,并发秒杀 2-149,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392840,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392847,5,02 执行秒杀,200,,并发秒杀 2-151,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392847,5,02 执行秒杀,200,,并发秒杀 2-149,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392847,6,02 执行秒杀,200,,并发秒杀 2-150,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392848,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392858,3,01 获取幂等Token,200,,并发秒杀 2-153,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392858,3,01 获取幂等Token,200,,并发秒杀 2-152,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392858,3,01 获取幂等Token,200,,并发秒杀 2-154,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392855,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392862,5,02 执行秒杀,200,,并发秒杀 2-152,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392862,5,02 执行秒杀,200,,并发秒杀 2-153,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392862,5,02 执行秒杀,200,,并发秒杀 2-154,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392862,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392868,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392873,3,01 获取幂等Token,200,,并发秒杀 2-155,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392873,3,01 获取幂等Token,200,,并发秒杀 2-156,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392873,3,01 获取幂等Token,200,,并发秒杀 2-157,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392874,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392877,5,02 执行秒杀,200,,并发秒杀 2-156,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392877,5,02 执行秒杀,200,,并发秒杀 2-157,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392877,5,02 执行秒杀,200,,并发秒杀 2-155,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392880,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392888,3,01 获取幂等Token,200,,并发秒杀 2-160,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392888,3,01 获取幂等Token,200,,并发秒杀 2-158,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392888,3,01 获取幂等Token,200,,并发秒杀 2-159,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392886,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392893,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392892,6,02 执行秒杀,200,,并发秒杀 2-160,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392892,6,02 执行秒杀,200,,并发秒杀 2-159,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392892,6,02 执行秒杀,200,,并发秒杀 2-158,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392899,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392903,3,01 获取幂等Token,200,,并发秒杀 2-161,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392903,3,01 获取幂等Token,200,,并发秒杀 2-162,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392903,3,01 获取幂等Token,200,,并发秒杀 2-163,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392905,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392907,5,02 执行秒杀,200,,并发秒杀 2-161,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392907,5,02 执行秒杀,200,,并发秒杀 2-163,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392907,5,02 执行秒杀,200,,并发秒杀 2-162,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392911,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392918,4,01 获取幂等Token,200,,并发秒杀 2-165,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392918,4,01 获取幂等Token,200,,并发秒杀 2-166,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392918,4,01 获取幂等Token,200,,并发秒杀 2-164,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392916,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895392923,6,02 执行秒杀,200,,并发秒杀 2-164,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392923,6,02 执行秒杀,200,,并发秒杀 2-166,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392923,6,02 执行秒杀,200,,并发秒杀 2-165,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392923,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392931,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,2,0,0
+1789895392934,3,01 获取幂等Token,200,,并发秒杀 2-169,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392934,3,01 获取幂等Token,200,,并发秒杀 2-168,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392934,5,01 获取幂等Token,200,,并发秒杀 2-167,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392937,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392938,5,02 执行秒杀,200,,并发秒杀 2-168,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392938,5,02 执行秒杀,200,,并发秒杀 2-169,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392939,5,02 执行秒杀,200,,并发秒杀 2-167,text,true,,369,483,2,3,http://localhost:8080/seckill/do,5,0,0
+1789895392943,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,4,0,0
+1789895392949,4,01 获取幂等Token,200,,并发秒杀 2-171,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392949,4,01 获取幂等Token,200,,并发秒杀 2-172,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392949,5,01 获取幂等Token,200,,并发秒杀 2-170,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,5,0,3
+1789895392950,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392953,6,02 执行秒杀,200,,并发秒杀 2-171,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392953,6,02 执行秒杀,200,,并发秒杀 2-172,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895392954,5,02 执行秒杀,200,,并发秒杀 2-170,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392956,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392964,3,01 获取幂等Token,200,,并发秒杀 2-175,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392964,3,01 获取幂等Token,200,,并发秒杀 2-174,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392964,3,01 获取幂等Token,200,,并发秒杀 2-173,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392962,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392969,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895392968,8,02 执行秒杀,200,,并发秒杀 2-175,text,true,,369,483,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895392968,8,02 执行秒杀,200,,并发秒杀 2-173,text,true,,369,483,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895392968,8,02 执行秒杀,200,,并发秒杀 2-174,text,true,,369,483,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895392974,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392981,4,01 获取幂等Token,200,,并发秒杀 2-176,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392980,5,01 获取幂等Token,200,,并发秒杀 2-177,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392980,5,01 获取幂等Token,200,,并发秒杀 2-178,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,4,0,3
+1789895392982,4,01 获取幂等Token,200,,并发秒杀 2-179,text,true,,293,409,4,5,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392983,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,2,0,0
+1789895392985,6,02 执行秒杀,200,,并发秒杀 2-176,text,true,,369,483,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392985,6,02 执行秒杀,200,,并发秒杀 2-177,text,true,,369,483,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392986,5,02 执行秒杀,200,,并发秒杀 2-179,text,true,,369,483,4,5,http://localhost:8080/seckill/do,5,0,0
+1789895392985,6,02 执行秒杀,200,,并发秒杀 2-178,text,true,,369,483,4,5,http://localhost:8080/seckill/do,6,0,0
+1789895392989,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,5,http://localhost:8080/auth/register,2,0,0
+1789895392995,3,01 获取幂等Token,200,,并发秒杀 2-180,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895392995,3,01 获取幂等Token,200,,并发秒杀 2-182,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895392995,4,01 获取幂等Token,200,,并发秒杀 2-181,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895392995,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895392999,6,02 执行秒杀,200,,并发秒杀 2-180,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895392999,6,02 执行秒杀,200,,并发秒杀 2-182,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895393000,6,02 执行秒杀,200,,并发秒杀 2-181,text,true,,369,483,1,2,http://localhost:8080/seckill/do,5,0,0
+1789895393002,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895393011,4,01 获取幂等Token,200,,并发秒杀 2-183,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895393011,4,01 获取幂等Token,200,,并发秒杀 2-185,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895393011,4,01 获取幂等Token,200,,并发秒杀 2-184,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,1
+1789895393008,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895393015,6,02 执行秒杀,200,,并发秒杀 2-185,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393015,6,02 执行秒杀,200,,并发秒杀 2-184,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393016,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,2,0,0
+1789895393015,7,02 执行秒杀,200,,并发秒杀 2-183,text,true,,369,483,1,2,http://localhost:8080/seckill/do,7,0,0
+1789895393022,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393027,3,01 获取幂等Token,200,,并发秒杀 2-187,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393027,3,01 获取幂等Token,200,,并发秒杀 2-186,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895393027,3,01 获取幂等Token,200,,并发秒杀 2-188,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393028,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895393031,6,02 执行秒杀,200,,并发秒杀 2-187,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393031,6,02 执行秒杀,200,,并发秒杀 2-186,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393031,6,02 执行秒杀,200,,并发秒杀 2-188,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393035,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393043,3,01 获取幂等Token,200,,并发秒杀 2-191,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393043,3,01 获取幂等Token,200,,并发秒杀 2-189,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393044,3,01 获取幂等Token,200,,并发秒杀 2-190,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895393041,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895393048,5,02 执行秒杀,200,,并发秒杀 2-190,text,true,,369,483,3,4,http://localhost:8080/seckill/do,5,0,0
+1789895393047,6,02 执行秒杀,200,,并发秒杀 2-189,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393047,6,02 执行秒杀,200,,并发秒杀 2-191,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393048,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895393058,3,01 获取幂等Token,200,,并发秒杀 2-194,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393058,3,01 获取幂等Token,200,,并发秒杀 2-192,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895393058,3,01 获取幂等Token,200,,并发秒杀 2-193,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,3,0,2
+1789895393056,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,4,0,0
+1789895393062,6,02 执行秒杀,200,,并发秒杀 2-192,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393062,6,02 执行秒杀,200,,并发秒杀 2-194,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393062,6,02 执行秒杀,200,,并发秒杀 2-193,text,true,,369,483,3,4,http://localhost:8080/seckill/do,6,0,0
+1789895393064,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895393073,5,01 获取幂等Token,200,,并发秒杀 2-197,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895393073,5,01 获取幂等Token,200,,并发秒杀 2-195,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,4,0,2
+1789895393071,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,526,237,1,4,http://localhost:8080/auth/register,3,0,0
+1789895393073,6,01 获取幂等Token,200,,并发秒杀 2-196,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,3
+1789895393078,8,02 执行秒杀,200,,并发秒杀 2-195,text,true,,369,483,3,4,http://localhost:8080/seckill/do,8,0,0
+1789895393079,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,499,238,1,4,http://localhost:8080/auth/register,3,0,0
+1789895393080,12,02 执行秒杀,200,,并发秒杀 2-196,text,true,,369,483,5,6,http://localhost:8080/seckill/do,12,0,0
+1789895393078,14,02 执行秒杀,200,,并发秒杀 2-197,text,true,,369,483,5,6,http://localhost:8080/seckill/do,14,0,0
+1789895393090,6,01 获取幂等Token,200,,并发秒杀 2-199,text,true,,293,410,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,2
+1789895393091,6,01 获取幂等Token,200,,并发秒杀 2-198,text,true,,293,409,3,4,http://localhost:8080/seckill/token?activityId=1,6,0,4
+1789895393086,8,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,4,http://localhost:8080/auth/register,8,0,4
+1789895393099,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,4,http://localhost:8080/auth/register,3,0,0
+1789895393098,7,02 执行秒杀,200,,并发秒杀 2-198,text,true,,369,483,3,4,http://localhost:8080/seckill/do,7,0,0
+1789895393097,9,02 执行秒杀,200,,并发秒杀 2-199,text,true,,369,484,2,3,http://localhost:8080/seckill/do,9,0,0
+1789895393108,3,01 获取幂等Token,200,,并发秒杀 2-200,text,true,,293,408,1,2,http://localhost:8080/seckill/token?activityId=1,3,0,1
+1789895393105,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,2,http://localhost:8080/auth/register,4,0,0
+1789895393112,5,02 执行秒杀,200,,并发秒杀 2-200,text,true,,288,482,1,2,http://localhost:8080/seckill/do,5,0,0
+1789895393112,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,2,http://localhost:8080/auth/register,3,0,0
+1789895393119,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393126,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393132,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393139,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393144,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393149,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393156,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393161,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393167,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393171,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393176,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393180,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393185,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393190,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393196,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393200,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393205,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393210,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393214,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393220,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393225,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393229,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393234,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393241,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393250,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393256,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393261,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393266,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393272,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393277,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393282,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393288,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393293,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393299,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393304,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393308,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393313,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393317,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393322,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393326,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393330,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393334,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393340,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393345,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393350,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393355,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393361,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393366,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393371,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393376,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393381,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393385,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393391,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393396,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393401,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393407,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393412,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393418,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393422,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393428,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393433,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393438,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393442,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393446,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393451,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393455,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393459,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393465,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393470,4,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393476,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393481,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393487,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393491,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393497,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393502,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393507,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393512,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393517,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393522,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393526,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393531,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393535,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393539,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393543,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393548,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393552,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393557,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393561,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393565,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393570,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393575,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393579,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393584,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,2,0,0
+1789895393589,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393595,3,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,528,238,1,1,http://localhost:8080/auth/register,3,0,0
+1789895393601,2,注册用户 loadtest,200,,setUp 造压测用户 1-1,text,true,,499,238,1,1,http://localhost:8080/auth/register,2,0,0

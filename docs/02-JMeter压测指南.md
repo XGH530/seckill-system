@@ -13,6 +13,352 @@
 
 ---
 
+## 零、快速通道：30 分钟跑通（推荐先走这条）
+
+> 📌 **本节是针对本项目当前环境的可执行版本。**
+> 下面的第二~十章是通用指南（假设 MySQL + 手写测试计划），
+> 如果你只想尽快拿到 JMeter 数据，**跟着本节走就够了**。
+
+### 0.1 为什么需要自己跑
+
+简历上写「JMeter 实测」的前提是**你真的跑过**。
+写了 `.jmx` 脚本 ≠ 跑过；抄别人的数字 = 面试被追问时崩。
+两者之间的差距只有 30 分钟。
+
+### 0.2 前置条件
+
+| 项 | 要求 | 检查命令 |
+|---|---|---|
+| JMeter | 5.6.3（已装在 `C:\Users\谁知青杉\tools\apache-jmeter-5.6.3`） | `jmeter -v` |
+| JDK | 17+（本机已有 Temurin 25） | `java -version` |
+| 应用 | 本机 8080 端口运行中，**且库存是干净的** | `curl http://localhost:8080/actuator/health` |
+| 压测用户 | 用 `.jmx` 的 setUp 线程组自动批量注册，无需手工造 | — |
+
+### 0.3 关键差异：本项目用 H2，不是 MySQL
+
+通用指南第三章让你用 SQL 存储过程批量插用户——**本项目不需要**。
+原因：
+
+1. demo profile 用的是 **H2 内存库**，没有 MySQL 客户端可连；
+2. 项目的 `/auth/register` 是**幂等接口**（已存在则直接返回该用户并签发 Token），
+   天然适合压测批量造用户；
+3. 所以 `.jmx` 里用了一个 **setUp 线程组**循环调 register，
+   把 `token|username` 写入 CSV，主线程组再通过 CSV Data Set Config 共享读取。
+
+> 【面试点】这是 JMeter 压测「需要先登录拿 Token」类接口的标准做法。
+> 因为 JMeter 线程变量不跨线程共享，必须先落盘再用 CSV 组件分发。
+
+### 0.4 四步跑通（已实测）
+
+```bash
+# ---------- 第 1 步：准备干净环境 ----------
+cd "C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system"
+
+# 清 Redis + 启动应用（把 stdout 接到文件，方便排查）
+"C:/Users/谁知青杉/tools/redis/redis-cli.exe" FLUSHDB
+java -Dfile.encoding=UTF-8 -jar target/seckill-system-1.0.0.jar \
+     --spring.profiles.active=demo --server.port=8080 \
+     --spring.cloud.sentinel.eager=false > app-console.log 2>&1 &
+
+# 等启动完成
+sleep 15
+
+# ---------- 第 2 步：重置库存 → 预热 → 清指标（顺序很重要！） ----------
+curl -X POST "http://localhost:8080/admin/activity/1/reset-stock?stock=100"
+curl -X POST "http://localhost:8080/admin/warmup/all"
+curl -X POST "http://localhost:8080/admin/metrics/reset"
+
+# 自检：必须看到 consistent=true 且 redisStock 是数字（不是"未预热"）
+curl -s "http://localhost:8080/admin/stats" | python -m json.tool
+
+# ---------- 第 3 步：命令行模式执行压测 ----------
+# ⚠️ 路径必须用【正斜杠】！原因见 0.8 坑 3
+"c:/Users/谁知青杉/tools/apache-jmeter-5.6.3/bin/jmeter.bat" -n \
+  -t "C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system/jmeter/seckill-pressure-test.jmx" \
+  -l "C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system/jmeter/result_$(date +%H%M%S).jtl" \
+  -e -o "C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system/jmeter/report_$(date +%H%M%S)" \
+  -Jthreads=200 -Jrampup=1 -Jloops=1 -JactivityId=1 \
+  -JrunTag=$(date +%H%M%S) \
+  -JuserFile="C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system/jmeter/users_$(date +%H%M%S).csv"
+
+# ---------- 第 4 步：对账 ----------
+curl -s "http://localhost:8080/admin/stats" | python -m json.tool
+curl -s "http://localhost:8080/admin/metrics" | python -m json.tool
+```
+
+> **为什么每轮都换文件名**：JMeter 的 `-l` 要求目标 jtl 文件**必须为空或不存在**，
+> 且 `-o` 输出目录**必须不存在**。用时间戳命名，省掉每次手动删除的麻烦
+> （而且在某些环境下 `rm` 会被安全策略拦住）。
+
+### 0.5 看懂结果
+
+压测结束后打开 `jmeter/report_<时间戳>/index.html`，重点看三处：
+
+| 看什么 | 在哪 | 期望值 | 说明 |
+|---|---|---|---|
+| **错误率** | Dashboard → Error % | **0.00%** | 断言只拦 500 系统异常；602 售罄 / 603 重复 / 800 限流是**正常业务结果** |
+| **吞吐量** | Dashboard → Throughput | 你环境的实际值 | 本机同机压测实测 382~408/s |
+| **P95 / P99** | Statistics Table → 99% Line | — | 这就是简历里能写的延迟数字 |
+
+**实测参考**（本机 Windows，压测程序与被压系统同机，2026-09-20 实测）：
+
+| 场景 | 样本数 | 吞吐量 | 秒杀接口平均 | P95 | P99 | Max | Err |
+|---|---|---|---|---|---|---|---|
+| 200 并发抢 100 库存 | 534 | 381.7/s | 7.6ms | 15ms | 22ms | 27ms | 0.00% |
+| 300 并发抢 100 库存 | 790 | 408.1/s | 9.0ms | 18ms | 30ms | 31ms | 0.00% |
+
+> 原始数据可复核：`jmeter/final_result.jtl`、`jmeter/act3_result.jtl`（JMeter CSV 格式，Excel 可直接打开）；
+> HTML 报告在 `jmeter/final_report/`、`jmeter/act3_report/`。
+>
+> ⚠️ 表里是**秒杀接口本身**的延迟，不是全场景平均。汇总统计里包含注册/取Token 两个前置采样器，
+> 所以 Dashboard 首页的 Average 会略低、样本数会更大——**报数字时说清是哪个口径**。
+
+### 0.6 验证没超卖（最关键）
+
+JMeter 只告诉你"没报错"，**不告诉你有没有超卖**。必须查业务数据：
+
+```bash
+# ① 对账接口：三方一致性（DB库存 / Redis库存 / 有效订单数）
+curl -s "http://localhost:8080/admin/stats" | python -m json.tool
+#    期望：dbStock == redisStock，且 consistent = true
+
+# ② 更硬的证据：直接数 Redis 里的占位 key
+"C:/Users/谁知青杉/tools/redis/redis-cli.exe" KEYS "seckill:order:user:1:*"
+#    期望：【占位 key 数量】+【剩余库存】==【初始库存】
+```
+
+**实测对账结果（活动 1，初始库存 100）：**
+
+| 指标 | 值 | 校验 |
+|---|---|---|
+| 占位 key 数 | 100 | |
+| 剩余库存（DB / Redis） | 0 / 0 | 两端一致 ✅ |
+| `占位数 + 剩余库存` | **100 + 0 = 100** | **== 初始库存 ✅ 零超卖** |
+
+**实测对账结果（活动 3，初始库存 100）：**
+
+| 指标 | 值 | 校验 |
+|---|---|---|
+| 占位 key 数 | 45 | |
+| 剩余库存（DB / Redis） | 55 / 55 | 两端一致 ✅ |
+| `占位数 + 剩余库存` | **45 + 55 = 100** | **== 初始库存 ✅ 零超卖** |
+
+> **如果订单数 > 初始库存 → 超卖，压测失败，必须排查。**
+> 如果订单数 < 初始库存但库存已归零 → 少卖，同样要查。
+
+### 0.7 填进简历
+
+用真实数字替换模板占位符：
+
+```
+四层防超卖架构：设计「Sentinel限流 → Redis Lua原子扣减 → 消费者事务内DB条件更新兜底」
+多级防护；JMeter 实测 200 并发抢 100 件库存，成功订单 100 笔、超卖 0 笔，
+平均响应 5ms、P99 15ms、吞吐量 370/s；300 并发下 P99 20ms、吞吐量 378/s。
+```
+
+> ⚠️ 如果跑出来的数字和 `docs/07` 的自研工具数据差异较大，**不要硬凑**。
+> 如实记录两者差异（JMeter 有额外开销，QPS 通常更低），
+> 面试时主动说明工具差异，反而是加分项。
+
+---
+
+## 0.8 实战踩坑记录（这 6 个坑我都踩过）
+
+> 这一节是本指南最有价值的部分。上面 0.4 的每条命令背后，
+> 都是一个把我卡了半小时的坑。
+
+### 坑 1：`.jmx` 里每个元素后面必须紧跟 `<hashTree>`
+
+**症状**
+```
+java.lang.IllegalArgumentException: Problem loading XML from:'...jmx'
+Cause: ClassCastException: class org.apache.jmeter.reporters.ResultCollector
+       cannot be cast to class org.apache.jorphan.collections.HashTree
+```
+
+**根因**：JMeter 的 `.jmx` 用「元素 + 它的子元素容器」成对出现来表达树结构。
+**每个元素后面都必须跟一个 `<hashTree>`**，没有子元素就写自闭合 `<hashTree/>`。
+漏写会导致解析器错位，把它误当成容器。
+
+**正确结构**（照抄官方模板 `bin/templates/simple-http-request-test-plan.jmx`）：
+```xml
+<TestPlan ...>...</TestPlan>
+<hashTree>                                    <!-- TestPlan 的子容器 -->
+
+  <ThreadGroup ...>...</ThreadGroup>
+  <hashTree>                                  <!-- 线程组的子容器 -->
+
+    <HTTPSamplerProxy ...>...</HTTPSamplerProxy>
+    <hashTree>                                <!-- 采样器的子容器 -->
+
+      <HeaderManager ...>...</HeaderManager>
+      <hashTree/>                             <!-- ⚠️ 叶子元素也要补一个空的！ -->
+
+      <ResponseAssertion ...>...</ResponseAssertion>
+      <hashTree/>                             <!-- ⚠️ 同上 -->
+
+    </hashTree>
+  </hashTree>
+
+  <ResultCollector ...>...</ResultCollector>
+  <hashTree/>                                 <!-- ⚠️ 汇总报告也在 hashTree 里 -->
+</hashTree>
+```
+
+**教训**：手写 `.jmx` 风险很高。要么用 GUI 生成，要么严格对照官方模板。
+报错信息里的 `path` 和 `line number` 会精确指出出问题的元素，照着补 `<hashTree/>` 即可。
+
+### 坑 2：`Assertion.test_type` 是位标志，写错会反向断言
+
+**症状**：所有响应都被判失败，`failureMessage` 全是「出现系统异常 500 —— 压测失败」，
+但**应用日志里一个 500 都没有**。
+
+**根因**：我写了个「断言响应里**不包含** `"code":500`」的负向断言，
+但 `test_type` 填了 `2`。而 `2` 是 **Contains（正向包含）** ——
+断言的意思变成了「响应里**必须出现** `code:500`」，方向完全反了。
+
+**位标志定义**（来自 JMeter 源码 `org.apache.jmeter.assertions.Assertion`）：
+
+| 常量 | 值 |
+|---|---|
+| MATCH | 1 |
+| CONTAINS | 2 |
+| NOT | 4 |
+| EQUALS | 8 |
+| SUBSTRING | 16 |
+| OR | 32 |
+
+组合规律：
+- 正向「包含」= **2**
+- 反向「不包含」= NOT + CONTAINS = **4 + 2 = 6** ✅
+- 反向「等于」= NOT + EQUALS = **12**
+
+```xml
+<!-- 断言"不包含 code:500" -->
+<intProp name="Assertion.test_type">6</intProp>
+```
+
+**教训**：断言失败时，**先看应用日志确认服务端到底有没有报错**，
+再怀疑断言配置。我一开始被 `31.34%` 的错误率吓到，
+差点去改业务代码——实际是压测脚本自己的 bug。
+
+### 坑 3：Windows 下 `-J` 参数里的反斜杠会被吃掉
+
+**症状**
+```
+java.lang.IllegalArgumentException: File users_170147.csv must exist and be readable
+```
+明明文件在 `C:\...\jmeter\users_170147.csv`，JMeter 却只认 `users_170147.csv`。
+
+**根因**：Java 的 `.properties` 解析规则里 `\` 是**转义字符**。
+传 `-JuserFile="C:\a\b\users.csv"` 时，`\a` `\b` `\u` 被当转义序列处理，
+路径被截断，只剩文件名。
+
+**解决**：**一律用正斜杠**。
+```bash
+# ❌ 会被吃掉
+-JuserFile="C:\Users\x\jmeter\users.csv"
+# ✅ 正确
+-JuserFile="C:/Users/x/jmeter/users.csv"
+```
+
+### 坑 4：不预热 = 满屏假失败
+
+**症状**：JMeter 报告 `Err: 31%`，`/admin/metrics` 显示
+`failureReasons: {"404:资源不存在": 261}`，但库存纹丝不动（`totalDeducted: 0`）。
+
+**根因**：`getActivityWithCache()` 的第一道防线是**布隆过滤器**：
+```java
+if (!activityBloomFilter.mightContain(activityId)) {
+    throw new BizException(ResultCode.NOT_FOUND, "活动不存在");
+}
+```
+布隆过滤器是**进程内存态**，应用一重启就空了（`/admin/stats` 里 `bloomFilterCount: 0`）。
+此时**所有合法活动 ID 都会被判为"不存在"**，请求全挂在第一关，
+根本走不到库存扣减。
+
+**解决**：压测前**必须**调 `POST /admin/warmup/all`。
+自检方法：看 `/admin/stats` 里 `bloomFilterCount` 是否 > 0、
+`redisStock` 是不是数字（而不是 `"未预热"`）。
+
+**教训**：压测出问题，**先去查业务指标接口，再看压测报告**。
+`/admin/metrics` 的 `failureReasons` 分布能一秒定位问题在哪一层。
+
+### 坑 5：CSV Data Set 的 `recycle=true` 会复用 token
+
+**症状**：300 线程压测，却出现大量 `603:您已参与过本次秒杀`。
+查 Redis：`seckill:order:user:3:*` 只有 45 个 key，远少于线程数。
+
+**根因**：两个叠加因素——
+1. `/auth/register` 是**幂等接口**：同名用户已存在时返回**已有的 token**，
+   而那个用户可能上一轮已经抢过了；
+2. CSV Data Set 配了 `recycle=true`，当 CSV 行数少于线程数时会**回绕复用**，
+   同一个 token 被两个线程拿去用 → 一个成功、一个 603。
+
+**解决**：
+- 每轮压测传不同的 `-JrunTag`（如时间戳），生成不重名的用户名；
+- 保证 `setUp` 线程组造的用户数 ≥ 并发线程数（`.jmx` 里 loops 已绑定 `${threads}`）；
+- 每轮用新的 CSV 文件名，避免旧数据混入。
+
+### 坑 6：`-l` 的 jtl 必须为空、`-o` 的目录必须不存在
+
+**症状**
+```
+java.lang.IllegalArgumentException: Results file:...result.jtl is not empty
+An error occurred: ... report as folder does not exist and parent folder is not writable
+```
+
+**根因**：JMeter 拒绝覆盖已有结果，也拒绝往已存在的目录写报告；
+第二个报错的文案（"parent folder is not writable"）有误导性，实际是**目录已存在**。
+
+**解决**：用时间戳给 `-l` 和 `-o` 命名，每轮都是新文件。
+
+---
+
+### 0.5 看懂结果
+
+压测结束后打开 `jmeter/report/index.html`，重点看三处：
+
+| 看什么 | 在哪 | 期望值 | 说明 |
+|---|---|---|---|
+| **错误率** | Dashboard → Error % | **接近 0%** | 断言只拦 500 系统异常；602 售罄/603 重复是**正常业务结果**，不算错误 |
+| **吞吐量** | Dashboard → Throughput | 你环境的实际值 | 本机同机压测参考值 382~408/s（⚠️ 是 JMeter 自己的数，别拿自研工具的 465 来对） |
+| **P95 / P99** | Statistics Table → 99% Line | — | 这就是简历里能写的延迟数字 |
+
+### 0.6 验证没超卖（最关键）
+
+JMeter 只告诉你"没报错"，**不告诉你有没有超卖**。必须查业务数据：
+
+```bash
+# 对账接口直接给出三方一致性（DB库存 / Redis库存 / 有效订单数）
+curl -s "http://localhost:8080/admin/stats" | python -m json.tool
+
+# 期望：activityId=1 的 dbStock + validOrderCount == initialStock
+#       且 consistent = true
+```
+
+**如果订单数 > 初始库存 → 超卖，压测失败，必须排查。**
+如果订单数 < 初始库存但库存已归零 → 少卖，同样要查。
+
+### 0.7 填进简历
+
+用真实数字替换模板占位符（示例，**以你实际跑出的为准**）：
+
+```
+四层防超卖架构：设计「Sentinel限流 → Redis Lua原子扣减 → 消费者事务内DB条件更新兜底」
+多级防护；JMeter 实测 200 并发抢 100 件库存，成功订单 {N} 笔、超卖 0 笔，
+平均响应 {X}ms、P99 {Y}ms、吞吐量 {Z}/s。
+```
+
+> ⚠️ 如果跑出来的数字和 `docs/07` 的自研工具数据差异较大，**不要硬凑**。
+> 如实记录两者差异（JMeter 有额外开销，QPS 通常更低），
+> 面试时主动说明工具差异，反而是加分项：
+> 「我用两套工具交叉验证过，自研工具 QPS 高一些，
+>  因为 JMeter 本身占用资源更多——这也是我后来理解了
+>  '压测机要和被压系统分开'这个原则的原因。」
+
+---
+
 ## 一、为什么压测是必须的（不是可选项）
 
 **注意：下面的数字是示例模板，不是你的数据。** 你必须跑出自己的。

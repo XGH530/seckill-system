@@ -1,0 +1,14 @@
+[Unit]
+Description=Seckill System (Spring Boot demo, systemd managed)
+After=network.target redis-seckill.service
+Wants=redis-seckill.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/seckill
+ExecStart=/usr/bin/java -Dfile.encoding=UTF-8 -Xms256m -Xmx512m -jar /opt/seckill/seckill-system-1.0.0.jar --spring.profiles.active=demo --server.port=8081 --spring.cloud.sentinel.eager=false
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
