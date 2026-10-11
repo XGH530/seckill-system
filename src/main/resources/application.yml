@@ -22,7 +22,7 @@ spring:
     password: root
     hikari:
       # 【性能优化点】连接池调优：最大连接数 = CPU核数 * 2 + 磁盘数
-      # 本机 16 逻辑核 → 取 40 左右较为合理，过大反而因上下文切换降低吞吐
+      # 示例：16 逻辑核 → 取 40 左右较为合理，过大反而因上下文切换降低吞吐
       maximum-pool-size: 40
       minimum-idle: 10
       connection-timeout: 3000
@@ -118,7 +118,7 @@ logging:
 
 # ---------------------------------------------------------------
 # 可观测性（Actuator）
-# 【面试点】为什么生产系统必须暴露健康检查？
+# 【设计说明】为什么生产系统必须暴露健康检查？
 #   1. K8s / Nginx / SLB 靠 /actuator/health 判断实例存活，自动摘除故障节点
 #   2. 靠 /actuator/metrics 接 Prometheus 做 QPS、延迟、连接池、JVM 监控告警
 #   3. 靠 /actuator/info 确认线上跑的是哪个版本

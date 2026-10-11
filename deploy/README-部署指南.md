@@ -79,9 +79,9 @@ SSH 密码阶段**没有任何可见反馈**，输完直接回车即可，不需
 1. 获取公钥内容（`.pub` 文件双击打不开是正常的——Windows 不认识这个扩展名，文件没坏）：
    ```powershell
    # 直接显示内容，手动全选复制
-   Get-Content C:\Users\谁知青杉\.ssh\id_rsa.pub
+   Get-Content C:\Users\<你的用户名>\.ssh\id_rsa.pub
    # 或一步到位：直接复制到剪贴板
-   Get-Content C:\Users\谁知青杉\.ssh\id_rsa.pub | clip
+   Get-Content C:\Users\<你的用户名>\.ssh\id_rsa.pub | clip
    ```
    也可以右键文件 → 打开方式 → 记事本（别双击）。
    要复制的是 `ssh-rsa AAAA....` 开头、邮箱结尾的**一整行**。
@@ -102,11 +102,11 @@ SSH 密码阶段**没有任何可见反馈**，输完直接回车即可，不需
 2. 绑定到实例（同方案 A 第 3 步，会重启）。
 3. 登录命令带上私钥：
    ```
-   ssh -i C:\Users\谁知青杉\Downloads\密钥文件名.pem root@8.133.222.0
+   ssh -i C:\Users\<你的用户名>\Downloads\密钥文件名.pem root@8.133.222.0
    ```
 4. 若报 `UNPROTECTED PRIVATE KEY FILE`（Windows 权限太开放），先修权限再连：
    ```powershell
-   icacls "C:\Users\谁知青杉\Downloads\密钥文件名.pem" /inheritance:r /grant:r "$env:USERNAME:R"
+   icacls "C:\Users\<你的用户名>\Downloads\密钥文件名.pem" /inheritance:r /grant:r "$env:USERNAME:R"
    ```
 
 **方案 C（顺手可试，别指望）**：控制台「重置密码」→ 重启 → 再试密码登录。
@@ -174,7 +174,7 @@ cd "C:/Users/谁知青杉/WorkBuddy/2026-09-18-09-07-45/projects/seckill-system"
 
 # 打包（用项目自带的 mvnbuild.bat 包装脚本）
 # 注意：如果本地应用正在运行，先停掉，否则 jar 被锁无法覆盖
-cmd //c "C:\Users\谁知青杉\tools\mvnbuild.bat" clean package -DskipTests
+cmd //c "C:\Users\<你的用户名>\tools\mvnbuild.bat" clean package -DskipTests
 
 # 上传到服务器（把 <IP> 换成你的服务器 IP）
 scp target/seckill-system-1.0.0.jar root@<IP>:/opt/seckill/
@@ -245,7 +245,7 @@ ss -tlnp | grep 8081
 应用使用 **H2 内存数据库**，**重启后所有订单和库存数据都会重置**。
 这对演示来说其实是优点（每次都是干净状态），但你要知道：
 
-- 面试官访问时看到的是重置后的全新状态，库存充足
+- 访问者看到的是重置后的全新状态，库存充足
 - 如果想让数据持久化，需要切换 `application.yml` 中的数据库配置到 MySQL
 
 ### 2. 演示前先预热
@@ -263,9 +263,9 @@ curl -X POST http://localhost:8081/admin/warmup/all
 与银行项目（8080）可以并存。如果服务器内存紧张（1G 以下），
 两个 Java 应用同时跑会比较吃力，建议错峰演示。
 
-### 4. 简历链接的诚实性
+### 4. 演示链接的有效性
 
-部署成功后，简历 `线上演示` 行才成立：
+部署成功后，线上演示入口才可用：
 
 ```
 线上演示：http://<IP>:8081（账号：zhangsan/123456）

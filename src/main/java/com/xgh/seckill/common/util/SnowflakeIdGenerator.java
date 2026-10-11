@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 雪花算法（Snowflake）分布式 ID 生成器
  *
- * 【面试高频考点，必须能画图讲清】
+ * 【说明：ID 的位结构】
  *
  * 64 bit 组成（1 + 41 + 10 + 12）：
  * <pre>

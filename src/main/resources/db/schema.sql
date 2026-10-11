@@ -198,7 +198,7 @@ VALUES (1, 4999.00, 100, 100, DATE_SUB(NOW(), INTERVAL 1 HOUR), DATE_ADD(NOW(), 
 -- CREATE TABLE t_seckill_order_2 LIKE t_seckill_order;
 -- CREATE TABLE t_seckill_order_3 LIKE t_seckill_order;
 -- 注意：分表后 uk_user_activity 唯一索引会失效（跨表无法保证），
---       必须改用分布式锁 + Redis 保证一人一单，这是面试重点讨论话题。
+--       必须改用分布式锁 + Redis 保证一人一单。
 
 -- =====================================================================
 -- 对账 SQL（用于验证是否超卖 / 少卖）

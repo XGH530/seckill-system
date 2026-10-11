@@ -2,6 +2,8 @@
 
 > 作者：向国豪 | 2027 届 · 计算机科学与技术
 > 技术栈：Spring Boot 3.2.5 · MyBatis-Plus 3.5.5 · Redis 5.0.14 · Redisson 3.30.0 · RocketMQ 2.3.0 · Sentinel 2023.0.1.0 · H2/MySQL · JWT · Knife4j
+>
+> 🔗 **在线演示**：<http://8.133.222.0:8081>
 
 ---
 
@@ -39,7 +41,7 @@
 | 组件 | 版本 | 必需 | 说明 |
 |---|---|---|---|
 | JDK | 17+ | ✅ | 实测 JDK 22 编译至 17 通过 |
-| Maven | 3.8+ | ✅ | 本机 `C:\Users\谁知青杉\tools\apache-maven-3.9.9` |
+| Maven | 3.8+ | ✅ | 用于构建，`mvn -v` 可验证 |
 | Redis | 5.0+ | ✅ | 实测 5.0.14；脚本已做 `GETDEL` 兼容 |
 | MySQL | 8.0 | ❌ | **默认不用**，demo 模式走 H2 内存库 |
 | RocketMQ | 4.9+ / 5.x | ❌ | 不装自动降级为内存队列 |
@@ -52,16 +54,12 @@
 只需 Redis，数据库用 H2 内存库，启动时自动建表 + 初始化数据。
 
 ```bash
-# 1. 启动 Redis（本机已装）
-"C:\Users\谁知青杉\tools\redis\redis-server.exe"
+# 1. 启动 Redis
+redis-server
 
-# 2. 编译（注意：不要用 mvn.cmd，见「踩坑」章节）
-#    直接用 java 调 Maven 的 classworlds launcher，避免中文路径被 cygpath 破坏
-java -cp "C:\Users\谁知青杉\tools\apache-maven-3.9.9\boot\plexus-classworlds-2.8.0.jar" \
-  "-Dclassworlds.conf=C:\Users\谁知青杉\tools\apache-maven-3.9.9\bin\m2.conf" \
-  "-Dmaven.home=C:\Users\谁知青杉\tools\apache-maven-3.9.9" \
-  "-Dmaven.multiModuleProjectDirectory=." \
-  org.codehaus.plexus.classworlds.launcher.Launcher clean package -DskipTests
+# 2. 编译打包
+#    （Windows 中文用户名路径下若 mvn 报路径错误，见 docs/04 排障）
+mvn clean package -DskipTests
 
 # 3. 启动（必须显式指定端口并关闭 Sentinel eager 初始化）
 java -jar target/seckill-system-1.0.0.jar \
@@ -145,7 +143,7 @@ curl -X POST "http://localhost:8080/seckill/pay?orderNo=SK359872638547529728" \
 
 ---
 
-## 四、核心设计（面试重点）
+## 四、核心设计
 
 ### 4.1 如何防止超卖？—— 四层防线
 
@@ -183,7 +181,7 @@ return redis.call('DECRBY', stockKey, num)
 > 超时回补的守卫条件还把问题掩盖了。修复后通过对账接口验证：
 > 下单后 `dbStock`、`redisStock`、`validOrderCount` 三者立刻一致（详见 `docs/06-实战踩坑记录.md` 坑 10）。
 
-> 面试话术：「我做了四层防护，前三层是性能优化，第四层是可靠性兜底——**性能可以妥协，正确性不能**。」
+> 四层防线的定位：前三层是性能优化，第四层是可靠性兜底——**性能可以妥协，正确性不能**。
 
 ### 4.2 如何防止少卖？
 
@@ -314,11 +312,11 @@ FROM t_seckill_activity a;
 
 **不相等就告警。** 这是所有异步方案的最终保障——允许中间状态短暂不一致，但系统必须能发现并收敛。
 
-> 加分点：主动说"我做了对账"，体现生产环境思维。大部分应届生只做功能，不做监控和对账。
+> 对账接口把 DB 库存 / Redis 库存 / 有效订单数放在一起对比，可在线发现数据不一致。
 
 ---
 
-## 五、压测（简历数字来源）
+## 五、压测与实测数据
 
 ### 5.1 已实测的结果
 
@@ -346,7 +344,7 @@ java pressure-test/MultiUserPressureTest.java http://localhost:8080 1 200
 # → Redis 库存 99 → 0，零超卖。99 + 100 + 1 = 200，账对得上
 ```
 
-### 5.2 JMeter 压测（可选，用于简历写"JMeter 压测"）
+### 5.2 JMeter 压测（可选）
 
 **Step 1：安装 JMeter 5.6**，解压即用，需 JDK 8+。
 
@@ -387,7 +385,7 @@ httpclient4.time_to_live=2000
 | 不清理数据 | 上一轮订单占满"一人一单"名额 | 每轮压测前重置 |
 | 只看 TPS 不看业务错误码 | 把"库存不足"当成失败，误判系统异常 | 区分 HTTP 错误 / 业务码 / 系统异常 |
 
-### 5.4 数据记录模板（填进简历用）
+### 5.4 压测数据记录模板
 
 | 场景 | 并发 | QPS | 平均RT | P95 | P99 | 错误率 | 超卖 |
 |---|---|---|---|---|---|---|---|
@@ -451,7 +449,7 @@ seckill-system/
 │   ├── application.yml
 │   └── application-demo.yml             H2 + 内存队列配置
 ├── pressure-test/                       ★ 自研压测程序
-├── docs/                                技术文档（8 篇，见下）
+├── docs/                                技术文档（4 篇，见下）
 └── verify.sh                            一键验证脚本
 ```
 
@@ -461,18 +459,14 @@ seckill-system/
 
 | 文档 | 内容 | 什么时候看 |
 |---|---|---|
-| `docs/00-交付说明.md` | 交付清单、怎么用这套材料 | 拿到项目先看 |
-| `docs/01-三周吃透计划.md` | 三周逐日计划，含实测环境校准 | 定学习节奏 |
-| `docs/02-JMeter压测指南.md` | JMeter 全套操作 | 想用 JMeter 时 |
-| `docs/03-简历描述模板.md` | 简历怎么写（含实测数字） | 改简历时 |
+| `docs/02-JMeter压测指南.md` | JMeter 压测全套操作 | 需要压测时 |
 | `docs/04-快速启动指南.md` | 排障式启动手册 | 启动报错时 |
-| `docs/05-面试问答手册.md` | 40+ 高频追问与标准答案 | 面试前一天 |
-| `docs/06-实战踩坑记录.md` | 7 个真实踩坑（含完整排查过程） | **最有价值的文档** |
-| `docs/07-压测报告-实测数据.md` | 实测压测报告原文 | 面试被追问数据时 |
+| `docs/06-实战踩坑记录.md` | 真实踩坑记录（含完整排查过程） | **最有价值的文档** |
+| `docs/07-压测报告-实测数据.md` | 实测压测报告原文 | 需要复核压测数据时 |
 
 ---
 
-## 八、已知限制（面试如实说，反而加分）
+## 八、已知限制与生产化改造方向
 
 | 限制 | 现状 | 生产方案 |
 |---|---|---|
@@ -482,13 +476,13 @@ seckill-system/
 | 定时任务无分布式锁 | 多节点会重复执行 | ShedLock / Redisson 锁 |
 | 密码未加密 | Demo 简化 | BCrypt |
 | 无 Sentinel 规则持久化 | 规则在代码/内存 | 接入 Nacos 持久化 |
-| 压测未做**前期无优化基线** | 只有优化后数据 | 补齐「改造前」对比数据，简历数字才有"提升 X 倍" |
+| 压测未做**前期无优化基线** | 只有优化后数据 | 补齐改造前的基线数据，才能量化优化收益 |
 
 ---
 
-## 九、面试自测清单
+## 九、关键正确性检查清单
 
-能全部答上来，这个项目就吃透了：
+上线或代码评审前应逐项确认：
 
 - [ ] 画出完整链路图（从请求进来到订单落库）
 - [ ] 说清超卖的成因，以及为什么"先查后改"会超卖
@@ -504,4 +498,4 @@ seckill-system/
 - [ ] 说清红锁（RedLock）的争议
 - [ ] 说清雪花算法 64 位组成与时钟回拨处理
 - [ ] 说清你的压测怎么做的、瓶颈在哪、怎么定位、优化了多少
-- [ ] 主动说一个你踩过的坑和解决过程（最有说服力，见 `docs/06`）
+- [ ] 记录已知问题与踩坑过程（见 `docs/06`）

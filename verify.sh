@@ -1,7 +1,7 @@
 #!/bin/bash
 export PATH="/usr/bin:/bin:$PATH"
 BASE="http://127.0.0.1:8080"
-CLI="/c/Users/谁知青杉/tools/redis/redis-cli.exe"
+CLI="${REDIS_CLI:-redis-cli}"
 OUT=/tmp/seckill_test_result.txt
 
 {

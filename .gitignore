@@ -34,7 +34,7 @@ pressure-test/probe*.txt
 /tmp/
 
 # ===== JMeter 压测产物 =====
-# 保留 jtl 原始数据与 jmx 计划（简历"实测"声明的证据链，面试可现场复跑/生成报告）
+# 保留 jtl 原始数据与 jmx 计划（压测的原始证据，可随时重新生成报告）
 # 不提交：压测用户 token 文件、HTML 报告目录（内含 250+ 第三方前端文件，可用 jtl 现场生成）
 jmeter/*_users.csv
 jmeter/users*.csv

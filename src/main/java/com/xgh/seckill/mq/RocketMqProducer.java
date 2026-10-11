@@ -20,7 +20,7 @@ import static com.xgh.seckill.common.constant.SeckillConstants.TOPIC_ORDER_TIMEO
  *  - false → 使用 {@link InMemoryMessageProducer} 内存队列（本地一键演示）
  *
  * 【设计说明】用接口 + 条件装配实现"可插拔的 MQ"，
- * 既保证简历上的技术栈是真实 RocketMQ，又让项目在任何机器上都能跑起来。
+ * 既保证生产配置下使用真实 RocketMQ，又让项目在任何机器上都能跑起来。
  *
  * @author 向国豪
  */

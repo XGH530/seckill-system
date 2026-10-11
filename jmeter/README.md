@@ -1,7 +1,7 @@
 # JMeter 压测产物说明
 
 > 本目录存放 Apache JMeter 5.6.3 的压测计划与**原始结果数据**。
-> 这些 `.jtl` 是「简历中压测数字」的证据链——每个数字都能从这里复算出来。
+> 这些 `.jtl` 是压测数据的原始记录，报告里的每个数字都能从这里复算。
 
 ## 文件清单
 
@@ -25,7 +25,7 @@ $csv | Group-Object label | ForEach-Object {
 }
 ```
 
-## 从 jtl 生成 HTML 报告（面试现场可演示）
+## 从 jtl 生成 HTML 报告
 
 ```bash
 jmeter -g jmeter/final_result.jtl -o jmeter/final_report

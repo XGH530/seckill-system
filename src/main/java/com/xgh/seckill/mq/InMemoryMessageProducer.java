@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * 【用途】当你本机没有 RocketMQ / Docker 时，用 JDK 自带的 DelayQueue
  *        模拟"异步下单 + 延迟消息"的完整语义，保证项目开箱即跑。
  *
- * 【面试怎么说】这是"适配器 + 条件装配"的工程实践：
+ * 【实现方式】这是"适配器 + 条件装配"的工程实践：
  *   业务代码只依赖 MessageProducer 接口，
  *   生产环境用 RocketMQ 实现，本地/测试环境用内存实现，两者行为一致。
  *   —— 这体现的是"面向接口编程"和"环境可移植性"的工程意识。

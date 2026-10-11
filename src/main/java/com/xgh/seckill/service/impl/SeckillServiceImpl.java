@@ -36,7 +36,7 @@ import static com.xgh.seckill.common.constant.SeckillConstants.*;
  * 秒杀服务实现 —— 项目核心
  *
  * =====================================================================
- * 【完整防超卖设计：四层防线，面试重点】
+ * 【完整防超卖设计：四层防线】
  * =====================================================================
  *
  *  第 1 层：前端限流
@@ -70,7 +70,7 @@ import static com.xgh.seckill.common.constant.SeckillConstants.*;
  *  效果：接口响应时间下降 90%，系统吞吐量提升一个数量级
  *
  * =====================================================================
- * 【分布式锁在这里的作用与边界 —— 面试必问】
+ * 【分布式锁在这里的作用与边界】
  * =====================================================================
  *  第 5 层：Redisson 分布式锁（按 userId + activityId 加锁）
  *
@@ -166,7 +166,7 @@ public class SeckillServiceImpl implements SeckillService {
         //   因为 Windows 版 Redis 最高只到 5.0.14，不支持 GETDEL，
         //   用 Lua 实现同样的原子语义，兼容性更好。
         //
-        // 【面试点】这体现了一种工程习惯：不依赖某个版本的专有特性，
+        // 【设计说明】这体现了一种工程习惯：不依赖某个版本的专有特性，
         // 用通用机制（Lua）实现等价语义，让代码在更多环境可运行。
         String value = redisTemplate.execute(getAndDeleteScript,
                 Collections.singletonList(key));
@@ -237,7 +237,7 @@ public class SeckillServiceImpl implements SeckillService {
         //   2. 判断更便宜（占位 key 的 SETNX 与库存扣减同为单次 Lua，代价相同）；
         //   3. 代码路径更短，异常分支更少，可维护性更好。
         //
-        // 【面试点】这类"看起来只是换了顺序"的改动，本质是在减少分布式事务的补偿面。
+        // 【设计说明】这类"看起来只是换了顺序"的改动，本质是在减少分布式事务的补偿面。
         // 补偿逻辑越少，系统能出错的点就越少——这是分布式设计的核心原则。
         long expireSeconds = Duration.between(LocalDateTime.now(), activity.getEndTime()).getSeconds();
         if (expireSeconds <= 0) {
