@@ -59,6 +59,13 @@ const Admin = {
     }
   },
 
+  /** 一键填入演示管理员账号并登录（演示环境省去手输） */
+  demoLogin() {
+    document.getElementById('loginUser').value = 'admin';
+    document.getElementById('loginPwd').value = '123456';
+    this.login();
+  },
+
   async login() {
     const username = document.getElementById('loginUser').value.trim();
     const password = document.getElementById('loginPwd').value;

@@ -137,6 +137,7 @@
   .btn-block{width:100%;margin-top:18px;padding:11px}
   .demo-hint{margin-top:12px;font-size:12px;color:var(--faint);text-align:center}
   .demo-hint a{color:var(--red);cursor:pointer}
+.admin-entry{margin-top:12px;font-weight:500;color:#8b929c}
 
   /* ---------- 结果弹窗 ---------- */
   .result-panel{max-width:400px;text-align:center}
@@ -305,6 +306,7 @@
     <div class="tabs">
       <button class="tab on" id="tabLogin" onclick="switchTab('login')">登 录</button>
       <button class="tab" id="tabReg" onclick="switchTab('reg')">注 册</button>
+      <button class="tab" id="tabAdmin" onclick="adminLogin()">管理员</button>
     </div>
     <div class="field">
       <label>用户名</label>
@@ -315,6 +317,7 @@
       <input id="fPass" type="password" placeholder="请输入密码" autocomplete="current-password">
     </div>
     <button class="btn btn-fire btn-block" id="btnAuth" onclick="submitAuth()">登 录</button>
+    <div class="demo-hint admin-entry">管理员入口：点上方「管理员」页签一键进入（admin / 123456）</div>
     <div class="demo-hint">演示账号 <a onclick="quickLogin()">zhangsan / 123456</a>（点击自动填入并登录）</div>
   </div>
 </div>
@@ -440,6 +443,16 @@ function openLogin(reason){
   setTimeout(()=>$('#fUser').focus(), 60);
 }
 function closeLogin(){ hide('loginMask'); }
+/* 管理员一键登录：用 admin 账号换 JWT，存进管理台的 key，再跳转管理台 */
+async function adminLogin(){
+  try {
+    const data = await api('/auth/login', {method:'POST', body:{username:'admin', password:'123456'}, silent:true});
+    if (data.role !== 'ADMIN') return toast('该账号不是管理员，无权进入后台','err');
+    localStorage.setItem('seckillAdminToken', data.token);
+    toast('管理员登录成功，正在进入后台…','ok');
+    setTimeout(()=>{ location.href='/admin.html'; }, 400);
+  } catch(e) { toast(e.message || '管理员登录失败','err'); }
+}
 function quickLogin(){ $('#fUser').value='zhangsan'; $('#fPass').value='123456'; submitAuth(); }
 async function submitAuth(){
   const username = $('#fUser').value.trim(), password = $('#fPass').value;
