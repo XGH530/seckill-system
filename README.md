@@ -90,6 +90,10 @@ mysql -uroot -p < src/main/resources/db/schema.sql
 |---|---|---|
 | **演示前端** | http://localhost:8080/ | **推荐**。登录、倒计时、抢购、排队、支付、订单全流程可视化 |
 | 接口文档 | http://localhost:8080/doc.html | Knife4j（已配 JWT 全局 Authorize，粘一次 token 全接口生效） |
+| **管理后台** | http://localhost:8080/admin.html | **管理控制台**：活动/商品/订单/用户/库存对账/指标监控，管理员账号 `admin` / `123456` |
+
+> 线上演示环境用 systemd 守护（`Restart=always`，另加 cgroup 内存上限 `MemoryMax=620M`），
+> 进程被 OOM 杀掉或异常退出会自动拉起，服务器重启也会自启；日志：`journalctl -u seckill -n 100 --no-pager`。
 
 ## 三、接口说明
 
@@ -108,6 +112,33 @@ mysql -uroot -p < src/main/resources/db/schema.sql
 | `/seckill/pay` | POST | 支付订单（模拟） |
 | `/seckill/warmup` | POST | **预热库存到 Redis（压测前必调）** |
 
+### 管理后台接口（需管理员角色）
+
+`/admin/**` 里有一组**管理台接口**，在控制器上用 `@RequireAdmin` 标注，
+由 `AdminAuthInterceptor` 统一校验 JWT 里的 `role=ADMIN`：
+
+| 场景 | 返回 |
+|---|---|
+| 未带 Token | `401 请先登录管理员账号` |
+| 普通用户（`role=USER`）的 Token | `403 该账号不是管理员，无权访问管理接口` |
+| 管理员（`role=ADMIN`）的 Token | 正常返回 |
+
+| 接口 | 方法 | 说明 |
+|---|---|---|
+| `/admin/me` | GET | 当前管理员信息（用于前端确认登录态） |
+| `/admin/overview` | GET | 概览：活动/商品/用户/订单总量 + 库存汇总 + 实时业务指标 |
+| `/admin/activities` | GET | 活动列表，**同一行给出 DB 库存 / Redis 库存 / 有效订单数并标记是否一致** |
+| `/admin/activity/{id}/status` | POST | 上架/下架活动（0-未开始 1-进行中 2-已结束），变更后清活动缓存 |
+| `/admin/orders` | GET | 订单分页查询（按状态 / 活动过滤） |
+| `/admin/orders/{orderNo}/cancel` | POST | **人工关单**：取消订单 → 回补 DB 库存 → 回补 Redis 库存 → 释放一人一单占位（幂等） |
+| `/admin/users` | GET | 用户分页查询（含每人订单数） |
+| `/admin/goods` | GET/POST | 商品列表 / 新增商品 |
+| `/admin/goods/{id}` | PUT/DELETE | 修改 / 删除商品（逻辑删除；仍有进行中的活动时拒绝删除） |
+| `/admin/health` | GET | 数据库 / Redis / JVM 健康检查 |
+
+> 演示页（`static/index.html`）顶部「运维面板」调用的 `/admin/metrics`、`/admin/warmup/all`、
+> `/admin/activity/{id}/reset-stock`、`/admin/stats` 是**刻意保持免鉴权**的（方便现场演示与压测脚本直接调用），
+> 所以拦截器用注解精确区分：标注了 `@RequireAdmin` 的才校验，未标注的保持原有开放策略。
 ### 完整调用流程
 
 ```bash

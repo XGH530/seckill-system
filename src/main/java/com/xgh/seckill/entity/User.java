@@ -28,6 +28,9 @@ public class User implements Serializable {
 
     private String nickname;
 
+    /** 角色:USER-普通用户, ADMIN-管理员(管理台接口据此鉴权) */
+    private String role;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

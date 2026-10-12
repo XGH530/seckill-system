@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS t_user
     password    VARCHAR(128) NOT NULL,
     phone       VARCHAR(20),
     nickname    VARCHAR(64),
+    role        VARCHAR(16) DEFAULT 'USER',
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted     TINYINT   DEFAULT 0
@@ -97,6 +98,10 @@ CREATE TABLE IF NOT EXISTS t_idempotent_record
 -- =====================================================================
 -- 初始化数据
 -- =====================================================================
+INSERT INTO t_user (username, password, phone, nickname, role)
+SELECT 'admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi',
+       '13800000000', '系统管理员', 'ADMIN'
+WHERE NOT EXISTS (SELECT 1 FROM t_user WHERE username = 'admin');
 INSERT INTO t_user (username, password, phone, nickname)
 SELECT 'zhangsan', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi',
        '13800000001', '张三'

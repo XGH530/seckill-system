@@ -21,6 +21,7 @@ CREATE TABLE `t_user`
     `password`    VARCHAR(128) NOT NULL COMMENT '密码（BCrypt 加密）',
     `phone`       VARCHAR(20)           DEFAULT NULL COMMENT '手机号',
     `nickname`    VARCHAR(64)           DEFAULT NULL COMMENT '昵称',
+    `role`        VARCHAR(16)           DEFAULT 'USER' COMMENT '角色：USER-普通用户 ADMIN-管理员',
     `create_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `deleted`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0-未删除 1-已删除',
@@ -165,6 +166,9 @@ CREATE TABLE `t_idempotent_record`
 -- =====================================================================
 
 -- 测试用户（密码明文 123456，BCrypt 加密后存储）
+INSERT INTO `t_user` (`username`,`password`,`phone`,`nickname`,`role`)
+SELECT 'admin','$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi','13800000000','系统管理员','ADMIN'
+WHERE NOT EXISTS (SELECT 1 FROM `t_user` WHERE `username` = 'admin');
 INSERT INTO `t_user` (`username`, `password`, `phone`, `nickname`)
 VALUES ('zhangsan', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '13800000001', '张三'),
        ('lisi', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '13800000002', '李四'),

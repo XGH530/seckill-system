@@ -54,13 +54,15 @@ public class AuthController {
             throw new BizException(ResultCode.PARAM_ERROR, "用户名或密码错误");
         }
 
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername());
+        // 把角色写进 Token:管理台接口依赖 role=ADMIN 做鉴权(见 AdminAuthInterceptor)
+        String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
 
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("userId", user.getId());
         data.put("username", user.getUsername());
         data.put("nickname", user.getNickname());
+        data.put("role", user.getRole());
 
         log.info("用户登录成功 username={} userId={}", user.getUsername(), user.getId());
         return Result.success("登录成功", data);

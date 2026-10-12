@@ -7,8 +7,13 @@ Wants=redis-seckill.service
 Type=simple
 WorkingDirectory=/opt/seckill
 ExecStart=/usr/bin/java -Dfile.encoding=UTF-8 -Xms256m -Xmx512m -jar /opt/seckill/seckill-system-1.0.0.jar --spring.profiles.active=demo --server.port=8081 --spring.cloud.sentinel.eager=false
+# 正常 stop 时的 143(SIGTERM) 不算失败,避免 systemctl status 显示 failed
+SuccessExitStatus=143
 Restart=always
 RestartSec=5
+# cgroup 级内存上限：应用内存失控时只影响自己，不会触发整机 OOM Killer 把同机的银行项目带走
+MemoryMax=620M
+MemorySwapMax=256M
 
 [Install]
 WantedBy=multi-user.target

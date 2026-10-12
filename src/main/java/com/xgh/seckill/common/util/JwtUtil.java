@@ -40,12 +40,23 @@ public class JwtUtil {
     }
 
     /**
-     * 生成 Token
+     * 生成 Token(默认普通用户角色,供注册/压测造号的旧调用方使用)
      */
     public String generateToken(Long userId, String username) {
+        return generateToken(userId, username, "USER");
+    }
+
+    /**
+     * 生成 Token(带角色)
+     *
+     * 【设计说明】把 role 放进 JWT,鉴权时无需查库,
+     * 接口层用 role 做粗粒度权限判断(ADMIN / USER)。
+     */
+    public String generateToken(Long userId, String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
         claims.put("username", username);
+        claims.put("role", role == null || role.isBlank() ? "USER" : role);
 
         Date now = new Date();
         Date expire = new Date(now.getTime() + expireMinutes * 60 * 1000);
