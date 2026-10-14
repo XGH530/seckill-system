@@ -51,6 +51,9 @@ seckill:
   mq:
     rocketmq-enabled: false
   order-timeout-minutes: 15
+  # demo 环境的限流阈值（演示放宽，压测调小即可看到 606 限流）
+  limit:
+    qps: 2000
 
 rocketmq:
   name-server: 127.0.0.1:9876

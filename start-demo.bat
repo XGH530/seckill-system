@@ -22,7 +22,10 @@ rem 切到本脚本所在目录（无论项目放在哪个盘哪个路径都通�
 cd /d "%~dp0"
 
 echo [1/2] 清空 Redis 缓存（保证全新演示状态）...
-redis-cli FLUSHDB >nul 2>&1
+rem 找 redis-cli：优先用 tools 目录（PATH 里通常没有 redis-cli）
+set "RCLI=%USERPROFILE%\tools\redis\redis-cli.exe"
+if not exist "%RCLI%" set "RCLI=redis-cli"
+"%RCLI%" FLUSHDB >nul 2>&1
 
 echo [2/2] 启动应用（首次启动约 10 秒）...
 java -Dfile.encoding=UTF-8 -jar target\seckill-system-1.0.0.jar --spring.profiles.active=demo

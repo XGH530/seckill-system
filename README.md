@@ -214,6 +214,25 @@ return redis.call('DECRBY', stockKey, num)
 
 > 四层防线的定位：前三层是性能优化，第四层是可靠性兜底——**性能可以妥协，正确性不能**。
 
+### 4.1 附：限流规则怎么配、怎么验证
+
+第 1 层防线的规则由代码加载（`config/SentinelRuleConfig`），而不是依赖控制台：
+
+```yaml
+seckill:
+  limit:
+    qps: 2000      # 单机 QPS 上限；压测时调小即可观察限流
+```
+
+- 入口方法 `SeckillServiceImpl#doSeckill` 上标注 `@SentinelResource(value="seckill:do", blockHandler="doSeckillBlocked")`；
+- 超过阈值时由 `doSeckillBlocked` 兜底，返回业务码 **606「当前人数过多，请稍后重试」**（限流是预期内的保护行为，不该给用户 500）；
+- **快速失败**而不是排队等待：排队会拖长 RT 并占住 Tomcat 线程；
+- 规则用代码管理的好处：随仓库评审/版本化、每个实例启动即生效、演示环境没有控制台也能工作。
+
+验证方式（实测有效）：把 `qps` 改成 1 重启，连续发 6 次抢购，可看到其中 3 次返回 606，其余按正常业务逻辑返回（200 / 603 重复下单）。
+
+> 另一个容易踩的点：`warmUpStock` 用的是 `setIfAbsent`（**故意不覆盖**已扣减的库存，否则预热一次就把卖出去的库存加回来了），
+> 所以 DB 与 Redis 已经漂移时**预热修不好**，必须用 `/admin/activity/{id}/reset-stock` 做「DB + Redis + 用户占位」三方一起重置。
 ### 4.2 如何防止少卖？
 
 少卖 = 库存扣了但订单没生成。本项目两条路径：

@@ -1,11 +1,13 @@
 package com.xgh.seckill.service.impl;
 
 import com.xgh.seckill.annotation.DistributedLock;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.xgh.seckill.common.constant.SeckillConstants;
 import com.xgh.seckill.component.ActivityBloomFilter;
 import com.xgh.seckill.common.exception.BizException;
 import com.xgh.seckill.common.result.ResultCode;
 import com.xgh.seckill.common.util.SnowflakeIdGenerator;
+import com.xgh.seckill.config.SentinelRuleConfig;
 import com.xgh.seckill.entity.SeckillActivity;
 import com.xgh.seckill.entity.SeckillOrder;
 import com.xgh.seckill.mapper.SeckillActivityMapper;
@@ -34,67 +36,6 @@ import static com.xgh.seckill.common.constant.SeckillConstants.*;
 
 /**
  * 秒杀服务实现 —— 项目核心
- *
- * =====================================================================
- * 【完整防超卖设计：四层防线】
- * =====================================================================
- *
- *  第 1 层：前端限流
- *      按钮置灰 + 验证码，拦截 90% 的无效重复请求（治标）
- *
- *  第 2 层：网关/接口限流（Sentinel）
- *      单机 QPS 限流 + 热点参数限流（对活动 ID 限流），挡住机器刷单
- *
- *  第 3 层：Redis Lua 原子扣减（关键！）
- *      "判断库存 + 扣减库存"合并为一个原子操作，把绝大部分请求挡在数据库之前。
- *      Redis 单机可支撑 10w+ QPS，是性能的核心。
- *
- *  第 4 层：数据库条件更新兜底（最后一道防线）
- *      UPDATE ... WHERE seckill_stock >= 1
- *      即使 Redis 挂了 / 被绕过 / 数据不一致，DB 行锁也能保证不超卖。
- *      —— 这叫"不信任任何单点"，是分布式系统的核心思想。
- *
- * =====================================================================
- * 【一人一单的三重保证】
- * =====================================================================
- *  1. Redis Lua: SET NX 原子占位（性能层，挡住 99.9%）
- *  2. 数据库唯一索引 uk_user_activity（持久层，绝对可靠）
- *  3. 消费端幂等校验（防止 MQ 重复投递）
- *
- * =====================================================================
- * 【为什么用 MQ 异步下单？—— 秒杀削峰的核心】
- * =====================================================================
- *  同步链路：请求 → 校验 → 扣库存 → 写订单 → 返回  (总耗时 ~50ms，Tomcat 线程全程占用)
- *  异步链路：请求 → 校验 → 扣库存 → 发消息 → 立即返回"排队中"  (~5ms，线程快速释放)
- *            MQ 消费者按自己节奏写订单，实现"削峰填谷"
- *  效果：接口响应时间下降 90%，系统吞吐量提升一个数量级
- *
- * =====================================================================
- * 【分布式锁在这里的作用与边界】
- * =====================================================================
- *  第 5 层：Redisson 分布式锁（按 userId + activityId 加锁）
- *
- *  为什么锁的粒度是「用户 + 活动」，而不是只按活动加锁？
- *    - 若按活动加锁：整个活动被串行化，QPS 直接掉到个位数，
- *      相当于把一台 Redis 用成了单线程数据库 —— 这是典型的过度加锁。
- *    - 若按「用户 + 活动」加锁：只保证同一个用户的并发请求被串行处理，
- *      不同用户之间完全并行，吞吐不受影响。
- *    - 我们要防的是「同一用户瞬间狂点」造成的重复下单，
- *      而不是「不同用户同时抢购」——后者本来就该并发。
- *
- *  【最重要的一句话】这把锁是**性能优化与体验保障**，不是正确性依赖。
- *    - 正确性由「数据库唯一索引 uk_user_activity」保证，它是绝对可靠的；
- *    - 即使锁完全失效（Redis 主从切换丢锁），也不会超卖、不会重复下单；
- *    - 锁的价值在于：把「同用户的并发竞争」提前消解掉，少打几次 Redis、
- *      少产生几条无用的 MQ 消息，并且给用户返回明确的「请稍后再试」
- *      而不是让他等到一堆重复的下单结果。
- *
- *  【为什么还要 localLock = true？】
- *    同一用户狂点时，请求可能都落在同一台机器上。若每次都去抢 Redisson 锁，
- *    会给 Redis 带来大量无意义的 tryLock 往返。开启本地双重检查后，
- *    本地拿不到的请求直接快速失败，Redis 压力显著下降。
- *    这是「本地锁 + 分布式锁」的经典组合：本地锁挡大部分，分布式锁保正确性。
- *
  * @author 向国豪
  */
 @Slf4j
@@ -186,6 +127,10 @@ public class SeckillServiceImpl implements SeckillService {
     // =================================================================
 
     @Override
+    @SentinelResource(
+            value = SentinelRuleConfig.RESOURCE_SECKILL_DO,
+            blockHandler = "doSeckillBlocked"
+    )
     @DistributedLock(
             prefix = "seckill:lock:order:",
             key = "#userId + ':' + #activityId",
@@ -206,6 +151,28 @@ public class SeckillServiceImpl implements SeckillService {
             // 否则监控里的平均 RT 会只统计成功请求，严重偏乐观。
             metrics.recordLatency(System.currentTimeMillis() - begin);
         }
+    }
+
+    /**
+     * Sentinel 限流兜底方法(第 1 层防线)
+     *
+     * 【触发条件】单机 QPS 超过 seckill.limit.qps 时,Sentinel 直接调用本方法,
+     *           不会再进入下面的业务逻辑 —— 也就是说被限流的请求
+     *           连 Redis 都不会碰,这是最便宜的一层拦截。
+     *
+     * 【为什么返回业务异常而不是 500】
+     * 限流是"预期内"的保护行为,不是系统故障:用户应该看到
+     * 「当前人数过多,请稍后重试」并可以重试,而不是一个 500 错误页。
+     *
+     * 【方法签名要求】必须是 public、参数与原方法一致、末尾多一个 BlockException、
+     *                返回值类型相同(否则 Sentinel 会在启动时报找不到兜底方法)。
+     */
+    public SeckillResultVO doSeckillBlocked(Long userId, Long activityId,
+                                            String idempotentToken, com.alibaba.csp.sentinel.slots.block.BlockException ex) {
+        log.warn("[Sentinel 限流] 秒杀请求被限流 userId={} activityId={} rule={}", userId, activityId,
+                ex == null ? "-" : ex.getRule());
+        metrics.recordFailure(ResultCode.SECKILL_RATE_LIMIT);
+        throw new BizException(ResultCode.SECKILL_RATE_LIMIT);
     }
 
     /**

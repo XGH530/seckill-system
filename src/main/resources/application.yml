@@ -95,6 +95,10 @@ seckill:
   lock-wait-time: 3000
   # 分布式锁持有时间（毫秒）
   lock-lease-time: 10000
+  # 秒杀入口单机 QPS 上限（Sentinel 第 1 层防线，见 SentinelRuleConfig）
+  # 演示环境放宽到 2000，不影响正常抢购；压测时调小（例如 50）即可观察到限流
+  limit:
+    qps: 2000
 
 # ---------------------------------------------------------------
 # Sentinel 限流
